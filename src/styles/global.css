@@ -1,0 +1,168 @@
+:root {
+  --accent: #2563eb;
+  --accent-ink: #ffffff;
+  --text: #1e293b;
+  --muted: #64748b;
+  --bg: #ffffff;
+  --surface: #f8fafc;
+  --border: #e2e8f0;
+  --radius: 12px;
+  --maxw: 720px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", "Noto Sans CJK JP", sans-serif;
+  line-height: 1.7;
+  color: var(--text);
+  background: var(--bg);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+.container {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+header.site-header {
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+header.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.9rem;
+  padding-bottom: 0.9rem;
+}
+.brand {
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--text);
+}
+nav a {
+  margin-left: 1rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+nav a:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 0.25rem 0;
+}
+h2 {
+  font-size: 1.5rem;
+}
+h3 {
+  font-size: 1.2rem;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.hero {
+  padding: 3.5rem 0 2.5rem;
+}
+.hero h1 {
+  font-size: 2.5rem;
+  line-height: 1.2;
+}
+.hero p {
+  font-size: 1.1rem;
+  color: var(--muted);
+  max-width: 42rem;
+}
+
+.post-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 3rem;
+}
+.post-list li {
+  border-bottom: 1px solid var(--border);
+  padding: 1.1rem 0;
+}
+.post-list time {
+  display: block;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+article.post h1 {
+  font-size: 2.2rem;
+  line-height: 1.2;
+  margin-bottom: 0.4rem;
+}
+.post-meta {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 1.75rem;
+}
+.post-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+}
+.post-body pre {
+  background: #0f172a;
+  color: #e2e8f0;
+  padding: 1rem;
+  border-radius: var(--radius);
+  overflow-x: auto;
+}
+.post-body code {
+  background: var(--surface);
+  padding: 0.15rem 0.35rem;
+  border-radius: 4px;
+}
+
+.tag {
+  display: inline-block;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 0.1rem 0.7rem;
+  font-size: 0.8rem;
+  margin-right: 0.4rem;
+}
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  margin-top: 2rem;
+  padding: 1.5rem 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.admin-note {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+  padding: 0.9rem 1rem;
+  border-radius: var(--radius);
+  margin: 2rem 0;
+  font-size: 0.9rem;
+}

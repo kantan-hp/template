@@ -1,0 +1,33 @@
+# https://decapcms.org/docs/configuration-options/
+
+backend:
+  name: github
+  # Update this to your own GitHub repository, e.g. your-name/your-blog
+  repo: lavasecurity/kantan-hp
+  branch: main
+  base_url: https://api.github.com
+  # Set to true if you use a GitHub App (recommended for non-technical editors).
+  # See the README "GitHub OAuth / GitHub App" section for setup steps.
+  # use_graphql: false
+
+media_folder: public/images
+public_folder: /images
+
+collections:
+  - name: blog
+    label: Blog
+    folder: src/content/blog
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    preview_path: blog/{{slug}}
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Description, name: description, widget: text, required: false }
+      - { label: Publish Date, name: pubDate, widget: datetime }
+      - { label: Updated Date, name: updatedDate, widget: datetime, required: false }
+      - { label: Hero Image, name: heroImage, widget: image, choose_url: true, required: false }
+      - { label: Tags, name: tags, widget: list, default: [] }
+      - { label: Draft, name: draft, widget: boolean, default: false }
+      - { label: Body, name: body, widget: markdown }
