@@ -33,11 +33,24 @@
 如果还没有 GitHub 账号，可到 [github.com](https://github.com) 免费建立。
 
 ### 步骤 2 — 发布（仅需一次）
-前往 [Cloudflare](https://dash.cloudflare.com) → **Workers & Pages** → **Create** → **Pages** → **Connect to Git**，选择你复制的项目，然后：
-- Build command: `npm run build`
-- Output directory: `dist`
+前往 [Cloudflare](https://dash.cloudflare.com) → **Workers & Pages** → **Create application**。
+在 **Create a Worker** 页面底部有一行小字 **"Looking to deploy Pages? Get started"**，点击它。
+这会带你到会显示框架 preset 与输出文件夹的 Pages 设置。接着：
 
-Cloudflare 会自动构建并发布。你会得到一个免费网址，例如 `your-site.pages.dev`（之后可加自己的域名）。
+1. **Select a method** — 选择 **GitHub**（如有提示请登录／授权）。
+2. **Select a repository** — 选择你刚刚复制的项目。
+3. **Create and deploy** — 在构建设置中：
+   - **Framework preset:** **Astro**
+   - **Project name:** 任你命名（默认为 repo 名称，这将成为你的 `*.pages.dev` 网址）
+   - **Build command:** `npm run build`
+   - **Build output directory:** `dist`
+   
+   Cloudflare 会检测为 Astro 项目，preset 可能已自动填入。
+
+> 捷径：也可以从 **Workers & Pages → Create application → Pages 选项卡 → Connect to Git** 直接进入
+> Pages 设置 — 字段相同，只是可能不显示 preset 选择器。
+
+接着点击 **Save and Deploy**。Cloudflare 会自动构建并发布。你会得到一个免费网址，例如 `your-site.pages.dev`（之后可加自己的域名）。
 
 ### 步骤 3 — 写第一篇文章
 打开 `your-site.pages.dev/admin`，接受登录提示 → 按 **Blog → New Blog** → 输入标题和正文、上传图片，再按 **Publish**。约一分钟后就会发布到你的网站。
