@@ -7,7 +7,23 @@
     <title>Content Manager</title>
   </head>
   <body>
+    <!-- Enable manual initialization so we can inject a fork-aware OAuth backend. -->
+    <script>
+      window.CMS_MANUAL_INIT = true;
+    </script>
     <!-- Include the script that builds the page and powers Decap CMS -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <script>
+      // Documented Decap manual-init API (window.initCMS also exists in the bundle,
+      // but CMS.init is the stable, documented entry point).
+      window.CMS.init({
+        config: {
+          backend: {
+            base_url: location.origin,
+            auth_endpoint: '/api/auth',
+          },
+        },
+      });
+    </script>
   </body>
 </html>
