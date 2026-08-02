@@ -1,11 +1,11 @@
 ---
 // About page: renders the editable page from src/content/pages/about.md
-// (the editor's "Pages" tab).
-import { getCollection, render } from 'astro:content';
+// (the editor's "Pages" tab). Look up by ID so an extra page file in the
+// collection can't shift which entry /about renders.
+import { getEntry, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const pages = await getCollection('pages');
-const about = pages[0];
+const about = await getEntry('pages', 'about');
 const renderProps = about ? await render(about) : null;
 ---
 
