@@ -7,8 +7,10 @@
 
 import userConfig from './config.json';
 
-const settings = userConfig ?? {};
-
+// The JSON type is inferred from the file's current content (via
+// resolveJsonModule), so an editor removing an optional key (e.g. clearing
+// Author) would change the inferred type and break `npm run check`. Cast to an
+// explicit interface whose CMS-optional fields are optional instead.
 export interface NavItem {
   label: string;
   url: string;
@@ -18,6 +20,22 @@ export interface SocialItem {
   name: string;
   url: string;
 }
+
+export interface SiteSettings {
+  site?: {
+    title?: string;
+    description?: string;
+    author?: string;
+    url?: string;
+  };
+  theme?: {
+    preset?: string;
+  };
+  nav?: NavItem[];
+  socials?: SocialItem[];
+}
+
+const settings = (userConfig as SiteSettings) ?? {};
 
 export const site = {
   title: settings.site?.title ?? 'Kantan HP',

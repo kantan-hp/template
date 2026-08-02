@@ -70,7 +70,7 @@ In the editor, the **Settings** tab edits `src/config.json`: change the site **t
 or the **navigation** links. Press **Publish** and the live site updates automatically —
 no code required.
 
-To edit the **About** page (or add other single pages), use the editor's **Pages** tab.
+To edit the **About** page, use the editor's **Pages** tab.
 
 ---
 
