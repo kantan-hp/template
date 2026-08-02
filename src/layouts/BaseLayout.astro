@@ -16,7 +16,17 @@ interface Props {
 const { title, description } = Astro.props;
 const pageTitle = title ? `${title} — ${site.title}` : site.title;
 const pageDescription = description ?? site.description;
-const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
+
+// Canonical/og:url are only meaningful once a real site URL is configured
+// (PUBLIC_SITE_URL or site.url). Until then `site` falls back to the
+// placeholder, which would point crawlers at a nonexistent domain — so omit
+// these tags instead of emitting the placeholder.
+const resolvedSite = import.meta.env.SITE ?? '';
+const hasRealSite =
+  Boolean(Astro.site) && !resolvedSite.includes('your-site.example.com');
+const canonicalURL = hasRealSite
+  ? new URL(Astro.url.pathname, Astro.site).href
+  : undefined;
 ---
 
 <!doctype html>
@@ -29,9 +39,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
     <meta name="description" content={pageDescription} />
     <meta name="author" content={site.author} />
     <meta name="generator" content={Astro.generator} />
-    <link rel="canonical" href={canonicalURL} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="alternate" type="application/rss+xml" title={site.title} href="/rss.xml" />
+    {canonicalURL && <link rel="canonical" href={canonicalURL} />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />    <link rel="alternate" type="application/rss+xml" title={site.title} href="/rss.xml" />
     <meta name="theme-color" content="" />
 
     <!-- Open Graph -->
@@ -39,7 +48,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
     <meta property="og:site_name" content={site.title} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDescription} />
-    <meta property="og:url" content={canonicalURL} />
+    {canonicalURL && <meta property="og:url" content={canonicalURL} />}
     <meta name="twitter:card" content="summary" />
 
     <!--
