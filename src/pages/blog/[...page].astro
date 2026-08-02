@@ -1,0 +1,31 @@
+---
+// Blog index: lists published posts, newest first, paginated. The catch-all
+// `[...page]` param keeps the first page at /blog/ and later pages at /blog/2/.
+import { getCollection } from 'astro:content';
+import type { GetStaticPaths, Page } from 'astro';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Card from '../../components/Card.astro';
+import Pagination from '../../components/Pagination.astro';
+import { site } from '../../config';
+
+export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
+  const posts = (await getCollection('blog'))
+    .filter((post) => !post.data.draft)
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  return paginate(posts, { pageSize: 6 });
+};
+
+const { page } = Astro.props as { page: Page<CollectionEntry<'blog'>> };
+---
+
+<BaseLayout title="Blog" description={`Latest posts from ${site.title}.`}>
+  <div class="container" style="padding-top:2rem">
+    <h1>Blog</h1>
+    <p class="muted">Latest articles</p>
+    <ul class="post-list">
+      {page.data.map((post) => <Card post={post} />)}
+    </ul>
+    <Pagination page={page.currentPage} totalPages={page.lastPage} />
+  </div>
+</BaseLayout>

@@ -1,0 +1,30 @@
+---
+// About page: renders the editable page from src/content/pages/about.md
+// (the editor's "Pages" tab).
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const pages = await getCollection('pages');
+const about = pages[0];
+const renderProps = about ? await render(about) : null;
+---
+
+<BaseLayout title={about?.data.title ?? 'About'} description={about?.data.description}>
+  <div class="container" style="padding-top:2rem">
+    {
+      renderProps ? (
+        <article>
+          <h1>{about?.data.title}</h1>
+          <div class="prose">
+            <renderProps.Content />
+          </div>
+        </article>
+      ) : (
+        <p class="muted">
+          The About page hasn't been written yet — edit it from the editor's
+          Pages tab.
+        </p>
+      )
+    }
+  </div>
+</BaseLayout>
