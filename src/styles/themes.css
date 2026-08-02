@@ -39,7 +39,7 @@
 }
 
 /* Light schemes */
-[data-preset='kha-yan'],
+
 [data-preset='kha-yan'][data-theme='light'] {
   --background: #fefaec;
   --foreground: #120e01;
@@ -50,7 +50,6 @@
   --border: #cdc4d6;
 }
 
-[data-preset='nila'],
 [data-preset='nila'][data-theme='light'] {
   --background: #f6f6fb;
   --foreground: #0c0c19;
@@ -61,7 +60,6 @@
   --border: #d8d6ec;
 }
 
-[data-preset='jadeite'],
 [data-preset='jadeite'][data-theme='light'] {
   --background: #f6fcf7;
   --foreground: #060b07;
@@ -72,7 +70,6 @@
   --border: #d4e1df;
 }
 
-[data-preset='pyit-tine-htaung'],
 [data-preset='pyit-tine-htaung'][data-theme='light'] {
   --background: #fffaf6;
   --foreground: #060503;

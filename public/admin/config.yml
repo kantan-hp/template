@@ -51,8 +51,9 @@ collections:
   # The "lightweight WordPress" panel: edits below land on the live site on the
   # next deploy, no code touched.
   #
-  # NOTE: src/config.json is a plain JSON object whose keys match the field
-  # names below (nested keys use dot notation, e.g. `site.title`).
+  # NOTE: src/config.json is a plain JSON object. `site` and `theme` are object
+  # widgets so their edits bind to the real nested keys (Decap treats a flat
+  # field name as a literal key, so `site.title` would not nest).
   - name: settings
     label: Settings
     files:
@@ -61,21 +62,29 @@ collections:
         file: src/config.json
         format: json
         fields:
-          - { label: Site title, name: site.title, widget: string }
-          - { label: Tagline, name: site.description, widget: text }
-          - { label: Author, name: site.author, widget: string, required: false }
-          - label: Theme preset
-            name: theme.preset
-            widget: select
-            options:
-              - { label: Paper (default), value: paper }
-              - { label: Kha-Yan, value: kha-yan }
-              - { label: Nila, value: nila }
-              - { label: Jadeite, value: jadeite }
-              - { label: Pyit Tine Htaung, value: pyit-tine-htaung }
-              - { label: Deep Purple, value: deep-purple }
-              - { label: Ember, value: ember }
-              - { label: Espresso, value: espresso }
+          - label: Site
+            name: site
+            widget: object
+            fields:
+              - { label: Site title, name: title, widget: string }
+              - { label: Tagline, name: description, widget: text }
+              - { label: Author, name: author, widget: string, required: false }
+          - label: Theme
+            name: theme
+            widget: object
+            fields:
+              - label: Theme preset
+                name: preset
+                widget: select
+                options:
+                  - { label: Paper (default), value: paper }
+                  - { label: Kha-Yan, value: kha-yan }
+                  - { label: Nila, value: nila }
+                  - { label: Jadeite, value: jadeite }
+                  - { label: Pyit Tine Htaung, value: pyit-tine-htaung }
+                  - { label: Deep Purple, value: deep-purple }
+                  - { label: Ember, value: ember }
+                  - { label: Espresso, value: espresso }
           - label: Navigation
             name: nav
             widget: list
