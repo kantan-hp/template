@@ -6,8 +6,8 @@ interface Props {
 }
 
 const { page, totalPages } = Astro.props;
-const prevHref = page > 1 ? (page === 2 ? '/blog/' : `/blog/${page - 1}/`) : null;
-const nextHref = page < totalPages ? `/blog/${page + 1}/` : null;
+const prevHref = page > 1 ? (page === 2 ? '/blog/' : `/blog/page/${page - 1}/`) : null;
+const nextHref = page < totalPages ? `/blog/page/${page + 1}/` : null;
 ---
 
 <nav class="pagination" aria-label="Blog pages">
