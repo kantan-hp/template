@@ -1,9 +1,9 @@
-# Setting up GitHub login for Decap CMS
+# Setting up GitHub login for Sveltia CMS
 
 **Read this in:** [English](github-oauth-setup.md) · [日本語](github-oauth-setup.ja.md) · [繁體中文](github-oauth-setup.zh-Hant.md) · [简体中文](github-oauth-setup.zh-Hans.md)
 
-Decap CMS commits your content to the Git repository on your behalf, so it must be able
-to authenticate as you. This guide walks through the once-only setup.
+The editor (Sveltia CMS) commits your content to the Git repository on your behalf, so it
+must be able to authenticate as you. This guide walks through the once-only setup.
 
 > This page is a developer/admin task. Editors don't need to do any of it.
 
@@ -39,7 +39,7 @@ Both start the same way: create a GitHub OAuth App.
 
 ## A. One-time setup Action (recommended)
 
-This repo ships a workflow (`.github/workflows/decap-oauth-setup.yml`) that pushes the
+This repo ships a workflow (`.github/workflows/sveltia-oauth-setup.yml`) that pushes the
 two credentials into your Cloudflare Pages project and redeploys. The credentials are
 stored as **repository secrets** (so they're never logged), added once:
 
@@ -53,7 +53,7 @@ stored as **repository secrets** (so they're never logged), added once:
    - `CF_ACCOUNT_ID` = your Cloudflare account ID
    - `CF_DEPLOY_HOOK` (optional) = a Cloudflare deploy hook URL (see below), to have
      the workflow redeploy the site for you
-3. Go to **Actions → "Setup Decap CMS login" → Run workflow** and enter only your
+3. Go to **Actions → "Setup Sveltia CMS login" → Run workflow** and enter only your
    **Project name** — the name in your `*.pages.dev` URL.
 
 The workflow writes the credentials into Cloudflare Pages (per-key, so your other
@@ -79,7 +79,7 @@ next git push.
 
 ---
 
-## Point Decap at your fork (both paths)
+## Point the editor at your fork (both paths)
 
 The only thing to update in `public/admin/config.yml` is the `repo` — set it to **your
 fork**, not the upstream:
@@ -100,10 +100,10 @@ custom domain without further configuration.
 ## How it works
 
 1. The editor opens `/admin` and clicks **Login with GitHub**.
-2. Decap opens a popup to `<your-site>/api/auth`, which redirects to GitHub's OAuth page.
+2. The editor opens a popup to `<your-site>/api/auth`, which redirects to GitHub's OAuth page.
 3. After the user approves, GitHub redirects to `<your-site>/api/callback`, which exchanges
-   the code for an access token and hands it back to the Decap window.
-4. Decap uses that token to commit content to the repository in `config.yml`.
+   the code for an access token and hands it back to the editor window.
+4. The editor uses that token to commit content to the repository in `config.yml`.
 
 ## Troubleshooting
 

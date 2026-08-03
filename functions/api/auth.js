@@ -1,6 +1,8 @@
-// Decap CMS OAuth proxy — Cloudflare Pages Functions
+// GitHub OAuth proxy — Cloudflare Pages Functions (fork self-hosted login)
 // Adapted from https://github.com/i40west/netlify-cms-cloudflare-pages
 // (BSD-3-Clause). Redirects the editor to GitHub's OAuth authorize page.
+// Used by both Decap and Sveltia CMS; the cookie name below is stable (changing
+// it would break existing forks mid-setup).
 
 export async function onRequest(context) {
   const client_id = context.env.OAUTH_GITHUB_CLIENT_ID;

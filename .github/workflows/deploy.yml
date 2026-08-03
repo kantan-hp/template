@@ -3,11 +3,11 @@
 # This workflow is for sites provisioned by the kantan panel, which creates a
 # Cloudflare Pages project WITHOUT a Git connection and writes three repository
 # secrets (CF_API_TOKEN, CF_ACCOUNT_ID, CF_PAGES_PROJECT). Every push to main —
-# including content edits made in the Decap CMS editor — rebuilds and deploys
+# including content edits made in the editor — rebuilds and deploys
 # the site.
 #
 # CF_PAGES_PROJECT is the panel-specific marker: classic Git-connected forks
-# that followed decap-oauth-setup.yml also carry CF_API_TOKEN/CF_ACCOUNT_ID, so
+# that followed sveltia-oauth-setup.yml also carry CF_API_TOKEN/CF_ACCOUNT_ID, so
 # gating on those would run this job for them. When CF_PAGES_PROJECT is absent
 # (classic forks), the workflow skips itself cleanly: Cloudflare builds those
 # sites itself.

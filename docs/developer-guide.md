@@ -6,8 +6,8 @@ local setup, customization, and the internals of the starter.
 ## Stack
 
 - **[Astro](https://astro.build)** — static site generator (Node.js/npm, version 22+).
-- **[Decap CMS](https://decapcms.org)** — web editor at `/admin` that commits Markdown
-  to your Git repo.
+- **[Sveltia CMS](https://sveltiacms.app)** — web editor at `/admin` that commits Markdown
+  to your Git repo. (Successor to Netlify/Decap CMS; reads the same `config.yml`.)
 - **Cloudflare Pages** — free hosting; rebuilds on every push.
 
 ## Run locally
@@ -50,7 +50,7 @@ Cloudflare Pages "Connect to Git" steps.
 | Pages (home, blog list, about) | [`src/pages/`](../src/pages) |
 | Layouts (head, header/footer) | [`src/layouts/`](../src/layouts) |
 | Blog post schema | [`src/content.config.ts`](../src/content.config.ts) |
-| Decap editor fields | [`public/admin/config.yml`](../public/admin/config.yml) |
+| Editor fields | [`public/admin/config.yml`](../public/admin/config.yml) |
 | Post content | [`src/content/blog/`](../src/content/blog) (Markdown) |
 | Standalone pages (About) | [`src/content/pages/`](../src/content/pages) (Markdown) |
 | Static assets / images | [`public/`](../public) |
@@ -61,7 +61,7 @@ Cloudflare Pages "Connect to Git" steps.
 ```
 kantan-hp/
 ├── public/          # static assets copied to the built site
-│   ├── admin/       # Decap CMS dashboard (config.yml, index.html)
+│   ├── admin/       # Editor dashboard (config.yml, index.html)
 │   └── images/      # images uploaded via the editor
 ├── src/
 │   ├── components/  # Header, Footer, Card, Datetime, Tag, Socials, Pagination
@@ -93,14 +93,18 @@ the `theme.preset` select in `public/admin/config.yml`.
 ## Content contract
 
 Blog posts live in `src/content/blog/` with frontmatter `title`, `description`,
-`pubDate`, `updatedDate`, `heroImage`, `tags`, `draft` — matching the Decap **Blog**
+`pubDate`, `updatedDate`, `heroImage`, `tags`, `draft` — matching the editor's **Blog**
 collection. Drafts are visible in the editor but never built, so the editor and the
 site agree on what is published. Standalone pages (the **Pages** tab) live in
 `src/content/pages/` with `title`, `description` and a Markdown body.
 
+> The editor normalizes Markdown on save (Lexical-based), so a Decap-era post may get
+> light reformatting (list markers, bold/italic, soft line breaks) the first time it's
+> edited in Sveltia. Astro renders soft line breaks as spaces.
+
 ## Editor login (one time)
 
-To publish from `/admin`, Decap must authenticate to GitHub on your behalf. Follow
+To publish from `/admin`, the editor must authenticate to GitHub on your behalf. Follow
 [`docs/github-oauth-setup.md`](github-oauth-setup.md).
 
 ## Contributing

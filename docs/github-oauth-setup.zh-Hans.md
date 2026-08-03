@@ -1,8 +1,8 @@
-# 设置 Decap CMS 的 GitHub 登录
+# 设置 Sveltia CMS 的 GitHub 登录
 
 **以此语言阅读：** [English](github-oauth-setup.md) · [日本語](github-oauth-setup.ja.md) · [繁體中文](github-oauth-setup.zh-Hant.md) · [简体中文](github-oauth-setup.zh-Hans.md)
 
-Decap CMS 会代表你将内容提交到 Git 存储库，因此它需要能以你的身份登录。本指南说明仅需一次的设置。
+编辑器（Sveltia CMS）会代表你将内容提交到 Git 存储库，因此它需要能以你的身份登录。本指南说明仅需一次的设置。
 
 > 这是开发者／管理员的工作。编辑者不需要做任何事。
 
@@ -34,7 +34,7 @@ Decap CMS 会代表你将内容提交到 Git 存储库，因此它需要能以�
 
 ## A. 一次性设置 Action（推荐）
 
-本存储库内附一个工作流程（`.github/workflows/decap-oauth-setup.yml`），会把两个认证信息
+本存储库内附一个工作流程（`.github/workflows/sveltia-oauth-setup.yml`），会把两个认证信息
 写入你的 Cloudflare Pages 项目并重新部署。认证信息会以**存储库密钥**存储（不会出现在日志中），
 只需添加一次：
 
@@ -47,7 +47,7 @@ Decap CMS 会代表你将内容提交到 Git 存储库，因此它需要能以�
    - `CF_ACCOUNT_ID` = 你的 Cloudflare 账户 ID
    - `CF_DEPLOY_HOOK`（可选）= Cloudflare 的 deploy hook URL（见下方）。若要工作流程
      自动重新部署，请设置此密钥
-3. 前往 **Actions → "Setup Decap CMS login" → Run workflow**，只输入 **Project name**
+3. 前往 **Actions → "Setup Sveltia CMS login" → Run workflow**，只输入 **Project name**
    （`*.pages.dev` URL 中的项目名称）。
 
 工作流程会把认证信息写入 Cloudflare Pages（按键合并，因此其他环境变量会被保留），并通过
@@ -71,7 +71,7 @@ deploy hook 重新部署你的网站。这样就完成了 — 打开 `/admin`，
 
 ---
 
-## 将 Decap 指向你的 Fork（两种方式相同）
+## 将编辑器指向你的 Fork（两种方式相同）
 
 `public/admin/config.yml` 中唯一要改的是 `repo` — 设为**你的 fork**，而非上游：
 
@@ -90,10 +90,10 @@ backend:
 ## 工作原理
 
 1. 编辑者打开 `/admin` 并点击 **Login with GitHub**。
-2. Decap 打开 `<your-site>/api/auth` 的弹出窗口，跳转到 GitHub 的 OAuth 页面。
+2. 编辑器打开 `<your-site>/api/auth` 的弹出窗口，跳转到 GitHub 的 OAuth 页面。
 3. 用户授权后，GitHub 跳转到 `<your-site>/api/callback`，将 code 换成 access token 并交回给
-   Decap 窗口。
-4. Decap 用该 token 将内容提交到 `config.yml` 中指定的存储库。
+   编辑器窗口。
+4. 编辑器用该 token 将内容提交到 `config.yml` 中指定的存储库。
 
 ## 疑难解答
 

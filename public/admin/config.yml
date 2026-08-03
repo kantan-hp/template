@@ -1,4 +1,6 @@
-# https://decapcms.org/docs/configuration-options/
+# https://sveltiacms.app/en/docs/config-basics
+# (Sveltia CMS — the Svelte successor to Netlify/Decap CMS. It reads the same
+# config.yml schema, so this file is compatible with both.)
 #
 # Forks: the only thing you MUST change here is `repo` — set it to your own
 # fork, e.g. your-username/kantan-hp. Everything else is handled automatically:
@@ -14,6 +16,11 @@ backend:
 
 media_folder: public/images
 public_folder: /images
+
+# Sveltia writes empty optional fields (e.g. description/updatedDate/heroImage)
+# unless told otherwise; omitting them keeps the Astro content schema happy.
+output:
+  omit_empty_optional_fields: true
 
 collections:
   # ---- Blog posts -----------------------------------------------------------
@@ -52,7 +59,7 @@ collections:
   # next deploy, no code touched.
   #
   # NOTE: src/config.json is a plain JSON object. `site` and `theme` are object
-  # widgets so their edits bind to the real nested keys (Decap treats a flat
+  # widgets so their edits bind to the real nested keys (the CMS treats a flat
   # field name as a literal key, so `site.title` would not nest).
   - name: settings
     label: Settings

@@ -1,6 +1,6 @@
 // Site-wide settings for the blog.
 //
-// This is the JSON file the Decap CMS **Settings** tab edits (see
+// This is the JSON file the CMS **Settings** tab edits (see
 // public/admin/config.yml). It is a plain JSON object whose keys match the
 // collection's fields. You can also edit this file by hand; the site rebuilds
 // on the next deploy.
