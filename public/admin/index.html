@@ -11,11 +11,14 @@
     <script>
       window.CMS_MANUAL_INIT = true;
     </script>
-    <!-- Include the script that builds the page and powers Decap CMS -->
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <!-- Include the script that builds the page and powers the editor. Sveltia CMS
+         (the Svelte successor to Netlify/Decap CMS) reads the same config.yml and
+         speaks the same OAuth postMessage contract, so the backend injection below
+         is unchanged. Version pinned because Sveltia is pre-1.0. -->
+    <script src="https://unpkg.com/@sveltia/cms@0.178.0/dist/sveltia-cms.js"></script>
     <script>
-      // Documented Decap manual-init API (window.initCMS also exists in the bundle,
-      // but CMS.init is the stable, documented entry point).
+      // Documented manual-init API: CMS_MANUAL_INIT defers auto-init, CMS.init
+      // deep-merges the config object over config.yml (init config wins).
       //
       // Classic forks self-host the OAuth proxy (functions/api/*): inject
       // base_url/auth_endpoint for this site's own origin so any fork or custom

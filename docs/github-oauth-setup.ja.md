@@ -1,8 +1,8 @@
-# Decap CMS の GitHub ログイン設定
+# Sveltia CMS の GitHub ログイン設定
 
 **他の言語で読む：** [English](github-oauth-setup.md) · [日本語](github-oauth-setup.ja.md) · [繁體中文](github-oauth-setup.zh-Hant.md) · [简体中文](github-oauth-setup.zh-Hans.md)
 
-Decap CMS はあなたの代わりに Git リポジトリへコンテンツをコミットするため、あなたとして
+エディター（Sveltia CMS）はあなたの代わりに Git リポジトリへコンテンツをコミットするため、あなたとして
 ログインできる必要があります。このガイドでは一度だけ行う設定を説明します。
 
 > これは開発者／管理者向けの作業です。編集者は何もする必要はありません。
@@ -39,7 +39,7 @@ Decap CMS はあなたの代わりに Git リポジトリへコンテンツを�
 ## A. ワンタイム設定アクション（推奨）
 
 このリポジトリには、認証情報を Cloudflare Pages プロジェクトに書き込み、再デプロイする
-ワークフロー（`.github/workflows/decap-oauth-setup.yml`）が含まれています。認証情報は
+ワークフロー（`.github/workflows/sveltia-oauth-setup.yml`）が含まれています。認証情報は
 **リポジトリシークレット**として保存するため（ログに漏れません）、一度だけ追加します：
 
 1. **Cloudflare API トークン**（Cloudflare ダッシュボード → My Profile → **API Tokens** →
@@ -52,7 +52,7 @@ Decap CMS はあなたの代わりに Git リポジトリへコンテンツを�
    - `CF_ACCOUNT_ID` = お使いの Cloudflare アカウント ID
    - `CF_DEPLOY_HOOK`（任意）= Cloudflare のデプロイフック URL（下記参照）。ワークフローに
      再デプロイも任せる場合に設定
-3. **Actions → "Setup Decap CMS login" → Run workflow** を開き、**Project name**
+3. **Actions → "Setup Sveltia CMS login" → Run workflow** を開き、**Project name**
    （`*.pages.dev` URL のプロジェクト名）だけを入力。
 
 ワークフローが認証情報を Cloudflare Pages に書き込み（キー単位マージなので、他の
@@ -78,7 +78,7 @@ git push で反映されます。
 
 ---
 
-## Decap を自分のフォークに向ける（両方共通）
+## エディターを自分のフォークに向ける（両方共通）
 
 `public/admin/config.yml` で更新するのは `repo` だけ — **自分のフォーク**（上流ではなく）に設定：
 
@@ -98,10 +98,10 @@ backend:
 ## 仕組み
 
 1. 編集者が `/admin` を開き、**Login with GitHub** をクリック。
-2. Decap が `<your-site>/api/auth` へのポップアップを開き、GitHub の OAuth ページにリダイレクト。
+2. エディターが `<your-site>/api/auth` へのポップアップを開き、GitHub の OAuth ページにリダイレクト。
 3. 承認後、GitHub が `<your-site>/api/callback` にリダイレクトし、コードをアクセストークンに
-   交換して Decap のウィンドウに返す。
-4. Decap はそのトークンで `config.yml` のリポジトリにコンテンツをコミットする。
+   交換してエディターのウィンドウに返す。
+4. エディターはそのトークンで `config.yml` のリポジトリにコンテンツをコミットする。
 
 ## トラブルシューティング
 

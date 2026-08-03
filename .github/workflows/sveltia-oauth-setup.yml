@@ -1,4 +1,4 @@
-# One-time setup for Decap CMS GitHub login on Cloudflare Pages.
+# One-time setup for Sveltia CMS GitHub login on Cloudflare Pages.
 #
 # Run this once per fork after you have:
 #   1. Created a GitHub OAuth App (Settings -> Developer settings -> OAuth Apps)
@@ -11,14 +11,14 @@
 #        CF_ACCOUNT_ID          - your Cloudflare account id
 #        CF_DEPLOY_HOOK (optional) - Cloudflare deploy hook URL to auto-redeploy
 #
-# Then go to Actions -> "Setup Decap CMS login" -> Run workflow and enter your
+# Then go to Actions -> "Setup Sveltia CMS login" -> Run workflow and enter your
 # Cloudflare Pages project name. The workflow writes the OAuth credentials into
 # the Cloudflare Pages project as environment variables.
 #
 # Sensitive values are repository secrets, NOT dispatch inputs: dispatch inputs
 # are logged unmasked in the publicly readable Actions metadata.
 
-name: Setup Decap CMS login
+name: Setup Sveltia CMS login
 
 on:
   workflow_dispatch:

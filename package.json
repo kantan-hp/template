@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.2.0",
   "private": true,
-  "description": "Kantan HP — a lightweight Astro + Decap CMS blog starter for Cloudflare Pages.",
+  "description": "Kantan HP — a lightweight Astro + Sveltia CMS blog starter for Cloudflare Pages.",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",

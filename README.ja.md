@@ -1,7 +1,7 @@
 # かんたんHP — 無料ですぐ始められるブログ
 
 [![Astro](https://img.shields.io/badge/Astro-7-FF5D01?logo=astro&logoColor=white)](https://astro.build)
-[![Decap CMS](https://img.shields.io/badge/Decap%20CMS-3-1f7a6b?logo=decap&logoColor=white)](https://decapcms.org)
+[![Sveltia CMS](https://img.shields.io/badge/Sveltia%20CMS-0.178.0-4a90d9)](https://sveltiacms.app)
 [![Hosting: Cloudflare Pages](https://img.shields.io/badge/Cloudflare%20Pages-free-F38020?logo=cloudflare&logoColor=white)](https://pages.cloudflare.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 

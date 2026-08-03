@@ -1,7 +1,8 @@
-// Decap CMS OAuth proxy — Cloudflare Pages Functions
+// GitHub OAuth proxy — Cloudflare Pages Functions (fork self-hosted login)
 // Adapted from https://github.com/i40west/netlify-cms-cloudflare-pages
 // (BSD-3-Clause). Exchanges the GitHub auth code for an access token and
-// hands it back to the Decap CMS login window via postMessage.
+// hands it back to the editor login window via postMessage.
+// The cookie name below is stable (changing it would break existing forks).
 
 function renderBody(status, content, origin) {
   // JSON.stringify then escape so the payload is a safe single-quoted JS string
@@ -12,7 +13,7 @@ function renderBody(status, content, origin) {
   const html = `
     <script>
       // Only ever hand the token back to a message from this site's own origin.
-      // Decap's login window is on the same origin as /api/callback; a malicious
+      // The editor's login window is on the same origin as /api/callback; a malicious
       // site that opened this popup first would otherwise become our opener and
       // could receive the token by replying to the authorizing handshake.
       const ORIGIN = ${JSON.stringify(origin)};
@@ -54,10 +55,17 @@ export async function onRequest(context) {
     const cookies = context.request.headers.get('cookie') || '';
     const match = cookies.match(/(?:^|;\s*)decap_oauth_state=([^;]+)/);
     if (!match || match[1] !== returnedState) {
-      return new Response(renderBody('error', { message: 'Invalid OAuth state' }, origin), {
-        headers: { 'content-type': 'text/html;charset=UTF-8' },
-        status: 403,
-      });
+      return new Response(
+        renderBody(
+          'error',
+          { message: 'Invalid OAuth state', error: 'Invalid OAuth state' },
+          origin,
+        ),
+        {
+          headers: { 'content-type': 'text/html;charset=UTF-8' },
+          status: 403,
+        },
+      );
     }
 
     const response = await fetch('https://github.com/login/oauth/access_token', {
@@ -84,9 +92,12 @@ export async function onRequest(context) {
     );
   } catch (error) {
     console.error(error);
-    return new Response(renderBody('error', { message: error.message }, origin), {
-      headers: { 'content-type': 'text/html;charset=UTF-8' },
-      status: 500,
-    });
+    return new Response(
+      renderBody('error', { message: error.message, error: error.message }, origin),
+      {
+        headers: { 'content-type': 'text/html;charset=UTF-8' },
+        status: 500,
+      },
+    );
   }
 }
