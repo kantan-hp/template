@@ -74,6 +74,20 @@ To edit the **About** page, use the editor's **Pages** tab.
 
 ---
 
+## Keeping your site up to date
+
+Sites created by the **kantan panel** show an **Update available** badge on their dashboard
+whenever this template ships a new version of the site core. The panel only offers updates
+that pass a **fitness gate** (your posts, images, and settings are never overwritten; a
+customized site is blocked, not clobbered), and it re-injects the editor's login details for
+you. See the **[Developer guide](docs/developer-guide.md#versioning-and-updates-panel-provisioned-sites)**
+for the exact user data contract.
+
+Classic forks (made by clicking **Fork**) are yours to update however you like — nothing
+automated happens to them.
+
+---
+
 ## Want to change how it looks?
 
 The quickest way to restyle the site is the **Settings → Theme** picker in the editor.
