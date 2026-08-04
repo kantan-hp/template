@@ -1,8 +1,11 @@
 # kantan か mark — design variations
 
-> **Preview:** rasterized PNGs of every variant are in [`preview/`](preview/) — view those
-> if your environment can't render the SVG text glyphs (the か needs a CJK font).
-> The SVGs below are the source of truth.
+> **Preview:** rasterized PNGs of every variant are in [`preview/`](preview/).
+>
+> **No font dependency:** all text (か, かんたん, kantan, taglines) is baked into SVG `<path>`
+> outlines (Noto Sans JP, OFL), so every file renders identically everywhere — GitHub, any
+> browser, any rasterizer — with no CJK font installed. `public/favicon.svg` can be built the
+> same way. The SVGs below are the source of truth.
 
 Proof-of-concept for the kantan logo: a **か monogram mark** + a **"kantan かんたん"
 wordmark**, per the `i18n / SEO / logo` plan. Direction chosen with the user: か (simple,
