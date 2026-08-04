@@ -107,6 +107,51 @@ site agree on what is published. Standalone pages (the **Pages** tab) live in
 To publish from `/admin`, the editor must authenticate to GitHub on your behalf. Follow
 [`docs/github-oauth-setup.md`](github-oauth-setup.md).
 
+## Versioning and updates (panel-provisioned sites)
+
+Sites created by the kantan panel are a **snapshot of this template at provision time**,
+recorded as the site's `template_version` (the template `main` commit SHA, panel-owned in
+its D1 registry). This makes core updates safe and user-facing rather than a data-loss
+trap.
+
+**The user data contract — the entire user-owned mutable surface:**
+
+| Path | What lives there |
+| --- | --- |
+| `src/content/**` | Blog posts and pages (Markdown, frontmatter `title`/`description`/`pubDate`/`updatedDate`/`heroImage`/`tags`/`draft`) |
+| `public/images/**` | Uploaded media (hero images, in-body images) |
+| `src/config.json` | Site settings (title, tagline, author, theme preset, nav, socials) |
+
+Everything else — `package.json`, `astro.config.mjs`, `src/components|layouts|pages|styles|scripts`,
+`src/content.config.ts`, `public/admin/`, `.github/workflows/` — is **core** and is updated by
+the panel's versioned-update flow. **Updates never touch the user data contract.**
+
+**How updates work (from the panel):**
+
+1. The panel shows each site a badge: **Up to date**, **Update available**, or **Baseline
+   needed**.
+2. Before offering an update the panel runs a **fitness gate**: it compares the site's core
+   file tree against `template@recorded_version`. A site whose core files were modified or
+   deleted is **dirty** and its update is **blocked** with a list of the drifted files — no
+   changes are made. (Pure *additions* of new files are tolerated.)
+3. A clean site shows the file-level diff (`template@N → template@N+1`), including any **major
+   bumps** (Astro/Sveltia majors), which require an explicit confirm. Updates are only offered
+   for template revisions whose own CI (`npm run check` + `npm run build`) passes.
+4. On confirm, the panel applies the diff to **core paths only**, re-injects the site-specific
+   `public/admin/config.yml` backend lines (`repo` / `base_url` / `auth_endpoint`), and commits
+   — your existing `deploy.yml` rebuilds and redeploys. The panel advances the recorded version
+   on success.
+
+Because the user has root on their own repo, the guarantee is **detection and safe handling of
+drift, never prevention** — the user can always edit or break their own site. The integrity
+anchor is server-side (`template_version` in D1), so a user cannot fake "clean" by editing
+files.
+
+> Sites created before version tracking existed have no recorded baseline. The panel shows
+> **Baseline needed** and only accepts a baseline when the site's core still matches the
+> current template. A dirty site's escape hatch is the content-transfer flow: start a fresh
+> site and bring your posts, images, and settings over.
+
 ## Contributing
 
 ```bash
