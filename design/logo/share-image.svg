@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#fafafa"/>
+  <rect width="1200" height="12" fill="#2563eb"/>
+  <rect x="160" y="190" width="120" height="120" rx="30" fill="#2563eb"/>
+  <text x="220" y="268" text-anchor="middle" dominant-baseline="central" font-size="70" font-weight="700" fill="#fff" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic',system-ui,sans-serif">か</text>
+  <text x="320" y="252" font-size="64" font-weight="700" letter-spacing="-1" fill="#111827" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic',system-ui,sans-serif">kantan</text>
+  <text x="322" y="322" font-size="28" fill="#2563eb" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic',system-ui,sans-serif">かんたん — a simple blog, free forever</text>
+  <text x="320" y="408" font-size="20" fill="#9ca3af" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic',system-ui,sans-serif">Your site's title goes here</text>
+
+</svg>

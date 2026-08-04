@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 96">
+  <rect x="12" y="22" width="52" height="52" rx="14" fill="#1f2430"/>
+  <text x="38" y="56" text-anchor="middle" dominant-baseline="central" font-size="30" font-weight="700" fill="#fff" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic',system-ui,sans-serif">か</text>
+  <text x="86" y="53" font-size="34" font-weight="700" fill="#111827" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic',system-ui,sans-serif" letter-spacing="-0.5">kantan</text>
+  <text x="86" y="78" font-size="17" fill="#9ca3af" font-family="'Hiragino Sans','Noto Sans JP','Yu Gothic',system-ui,sans-serif">かんたん — simple</text>
+
+</svg>
