@@ -1,0 +1,27 @@
+---
+// Blog index body, shared by the English root and the [locale]/ pages.
+import type { CollectionEntry } from 'astro:content';
+import { ui } from '../i18n/ui';
+import type { Locale } from '../i18n/ui';
+import Card from './Card.astro';
+import Pagination from './Pagination.astro';
+
+interface Props {
+  posts: CollectionEntry<'blog'>[];
+  currentPage: number;
+  lastPage: number;
+  locale: Locale;
+}
+
+const { posts, currentPage, lastPage, locale } = Astro.props;
+const t = ui[locale];
+---
+
+<div class="container" style="padding-top:2rem">
+  <h1>{t.blog.title}</h1>
+  <p class="muted">{t.blog.tagline}</p>
+  <ul class="post-list">
+    {posts.map((post) => <Card post={post} />)}
+  </ul>
+  <Pagination page={currentPage} totalPages={lastPage} locale={locale} />
+</div>

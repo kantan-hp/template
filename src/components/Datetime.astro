@@ -1,12 +1,17 @@
 ---
-// Renders a blog post's publication date as a <time> element.
+// Renders a blog post's publication date as a <time> element, localized to
+// the current page's locale.
+import type { Locale } from '../i18n/ui';
+import { getLocaleFromPath } from '../i18n/utils';
+
 interface Props {
   date: Date;
 }
 
 const { date } = Astro.props;
+const locale: Locale = getLocaleFromPath(Astro.url.pathname);
 
-const formatted = date.toLocaleDateString('en-US', {
+const formatted = date.toLocaleDateString(locale, {
   year: 'numeric',
   month: 'long',
   day: 'numeric',

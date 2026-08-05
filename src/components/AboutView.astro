@@ -1,0 +1,36 @@
+---
+// About page body, shared by the English root and the [locale]/ pages.
+// Renders src/content/pages/<locale>/about.md (the editor's "Pages" tab).
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import { ui } from '../i18n/ui';
+import type { Locale } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = ui[locale];
+
+const about = (await getCollection('pages')).find(
+  (page: CollectionEntry<'pages'>) => page.id.startsWith(`${locale.toLowerCase()}/about`),
+);
+const renderProps = about ? await render(about) : null;
+const title = about?.data.title ?? t.nav.About;
+---
+
+<div class="container" style="padding-top:2rem">
+  {
+    renderProps ? (
+      <article>
+        <h1>{title}</h1>
+        <div class="prose">
+          <renderProps.Content />
+        </div>
+      </article>
+    ) : (
+      <p class="muted">{t.about.notWritten}</p>
+    )
+  }
+</div>

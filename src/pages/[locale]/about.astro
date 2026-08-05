@@ -1,0 +1,16 @@
+---
+// About page for the non-default locales.
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AboutView from '../../components/AboutView.astro';
+import type { Locale } from '../../i18n/ui';
+import { localePaths, nonDefaultLocales } from '../../lib/blog';
+
+export const getStaticPaths: GetStaticPaths = () => localePaths(nonDefaultLocales());
+
+const locale = Astro.params.locale as Locale;
+---
+
+<BaseLayout>
+  <AboutView locale={locale} />
+</BaseLayout>

@@ -1,12 +1,20 @@
 ---
-// 404 page.
+// 404 page. Locale is detected from the requested path so a missing
+// `/ja/...` page still gets a Japanese 404 with the language switcher.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { ui } from '../i18n/ui';
+import type { Locale } from '../i18n/ui';
+import { getLocaleFromUrl, getLocalizedUrl } from '../i18n/utils';
+
+const locale: Locale = getLocaleFromUrl(Astro.url);
+const t = ui[locale];
+const homeUrl = getLocalizedUrl('/', locale);
 ---
 
-<BaseLayout title="Not found">
+<BaseLayout title={t.notFound.title} langSwitchBase="/">
   <div class="container notfound">
     <h1>404</h1>
-    <p class="muted">That page doesn't exist.</p>
-    <a class="btn" href="/">Go home</a>
+    <p class="muted">{t.notFound.body}</p>
+    <a class="btn" href={homeUrl}>{t.notFound.goHome}</a>
   </div>
 </BaseLayout>

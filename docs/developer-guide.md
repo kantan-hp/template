@@ -64,12 +64,15 @@ kantan-hp/
 │   ├── admin/       # Editor dashboard (config.yml, index.html)
 │   └── images/      # images uploaded via the editor
 ├── src/
-│   ├── components/  # Header, Footer, Card, Datetime, Tag, Socials, Pagination
+│   ├── components/  # Header, Footer, Card, Datetime, Tag, Socials, Pagination,
+│   │                #   plus the shared page bodies: Home, BlogIndex, AboutView
 │   ├── content/
-│   │   ├── blog/    # blog posts (Markdown files)
-│   │   └── pages/   # standalone pages, e.g. about.md
+│   │   ├── blog/    # blog posts, one folder per locale: {en,ja,zh-Hant,zh-Hans}/
+│   │   └── pages/   # standalone pages, e.g. about.md, per locale folder
+│   ├── i18n/        # ui.ts (UI strings per locale), utils.ts (locale helpers)
 │   ├── layouts/     # BaseLayout.astro, PostLayout.astro
-│   ├── pages/       # home, /blog, /blog/[slug], /about, /rss.xml, /404
+│   ├── lib/         # blog.ts / rss.ts — shared page-building logic
+│   ├── pages/       # English at the root; /ja/, /zh-Hant/, /zh-Hans/ under [locale]/
 │   ├── scripts/     # theme toggle
 │   ├── styles/      # global.css, themes.css
 │   ├── config.json  # site settings (edited via the Settings tab)
@@ -92,15 +95,44 @@ the `theme.preset` select in `public/admin/config.yml`.
 
 ## Content contract
 
-Blog posts live in `src/content/blog/` with frontmatter `title`, `description`,
+Blog posts live in `src/content/blog/<locale>/` with frontmatter `title`, `description`,
 `pubDate`, `updatedDate`, `heroImage`, `tags`, `draft` — matching the editor's **Blog**
 collection. Drafts are visible in the editor but never built, so the editor and the
 site agree on what is published. Standalone pages (the **Pages** tab) live in
-`src/content/pages/` with `title`, `description` and a Markdown body.
+`src/content/pages/<locale>/` with `title`, `description` and a Markdown body.
+
+A post is published **per locale**: a file in `src/content/blog/ja/` only appears on
+`/ja/` routes. If a post has no file for a locale, it simply doesn't appear there — there is
+no fallback or auto-translation. The locale is derived from the folder; note that Astro's
+content loader lowercases entry ids (`zh-Hant/welcome.md` → id `zh-hant/welcome`), so
+locale filters are case-insensitive.
 
 > The editor normalizes Markdown on save (Lexical-based), so a Decap-era post may get
 > light reformatting (list markers, bold/italic, soft line breaks) the first time it's
 > edited in Sveltia. Astro renders soft line breaks as spaces.
+
+## Internationalization
+
+The site ships four locales — English, 日本語, 繁體中文, 简体中文 — matching the README
+translations. English is the default and is served **unprefixed** (`/`, `/blog/`, ...); the
+others live at `/ja/`, `/zh-Hant/`, `/zh-Hans/`. Routing is configured in
+`astro.config.mjs` (`i18n` block) and the English pages sit at the root of `src/pages/`
+with the other locales under `src/pages/[locale]/`.
+
+- **UI strings** (nav, hero, buttons, pagination, 404, skip link) live in
+  `src/i18n/ui.ts`, keyed by locale. Content (posts, about pages, site title/tagline) is
+  authored per locale and not part of the dictionary.
+- **The language switcher** is in the footer, right-aligned, showing the four native names;
+  the current locale is marked. It switches to the same page in each locale. Because it
+  lives in `BaseLayout`'s footer, it appears on every page.
+- **The editor** shows per-locale tabs for blog posts and pages (Sveltia `i18n` with
+  `multiple_folders`). Dates, hero images and tags are duplicated across locales; titles,
+  descriptions and bodies are translated. The Settings tab (`src/config.json`) is **not**
+  localized — the site title, theme and nav are global.
+- **To add a locale:** add it to `i18n.locales` in `astro.config.mjs`, add its strings to
+  `src/i18n/ui.ts`, add a `src/content/blog/<locale>/` (and `pages/<locale>/`) folder, and
+  add it to `i18n.locales` + the blog/pages collections in `public/admin/config.yml`.
+- **RSS** is per-locale: `/rss.xml` (English) and `/<locale>/rss.xml`.
 
 ## Editor login (one time)
 

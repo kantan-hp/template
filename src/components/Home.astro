@@ -1,0 +1,48 @@
+---
+// Homepage body, shared by the English root (/) and the [locale]/ pages.
+// Hero copy is localized; the site title/tagline come from Settings.
+import Card from './Card.astro';
+import { site } from '../config';
+import { ui } from '../i18n/ui';
+import type { Locale } from '../i18n/ui';
+import { getLocalizedUrl } from '../i18n/utils';
+import { getPostsFor } from '../lib/blog';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = ui[locale];
+const posts = (await getPostsFor(locale)).slice(0, 4);
+const blogUrl = getLocalizedUrl('/blog/', locale);
+---
+
+<div class="container">
+  <section class="hero">
+    <h1>{site.title}</h1>
+    <p class="tagline">{site.description}</p>
+    <div class="cta">
+      <a class="btn" href={blogUrl}>{t.hero.readBlog}</a>
+      <a class="btn btn-ghost" href="/admin">{t.hero.openEditor}</a>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">
+      <h2>{t.hero.latestPosts}</h2>
+      <a href={blogUrl}>{t.hero.viewAll}</a>
+    </div>
+    {
+      posts.length > 0 ? (
+        <ul class="post-list">
+          {posts.map((post) => <Card post={post} />)}
+        </ul>
+      ) : (
+        <p class="muted">
+          {t.hero.noPostsBefore} <a href="/admin">/admin</a> {t.hero.noPostsAfter}
+        </p>
+      )
+    }
+  </section>
+</div>

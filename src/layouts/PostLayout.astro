@@ -4,24 +4,35 @@ import { render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
 import Tag from '../components/Tag.astro';
+import { ui } from '../i18n/ui';
+import type { Locale } from '../i18n/ui';
+import { getLocaleFromPath, getLocalizedUrl } from '../i18n/utils';
 
 interface Props {
   post: CollectionEntry<'blog'>;
 }
 
 const { post } = Astro.props;
+const locale: Locale = getLocaleFromPath(Astro.url.pathname);
+const t = ui[locale];
 const { Content } = await render(post);
+const blogUrl = getLocalizedUrl('/blog/', locale);
+const formattedDate = post.data.pubDate.toLocaleDateString(locale, {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
 ---
 
 <BaseLayout title={post.data.title} description={post.data.description}>
   <div class="container">
     <article class="post">
-      <a class="back-link" href="/blog/">← Back to blog</a>
+      <a class="back-link" href={blogUrl}>{t.post.backToBlog}</a>
       <header>
         <h1>{post.data.title}</h1>
         <div class="post-meta">
           <time datetime={post.data.pubDate.toISOString()}>
-            {post.data.pubDate.toDateString()}
+            {formattedDate}
           </time>
           {post.data.tags.map((tag) => <Tag text={tag} />)}
         </div>

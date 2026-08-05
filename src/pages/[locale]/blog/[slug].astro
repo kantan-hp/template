@@ -1,0 +1,18 @@
+---
+// Individual blog post pages for the non-default locales. Only posts that
+// have a translation in a locale get a page for it.
+import type { GetStaticPaths } from 'astro';
+import type { CollectionEntry } from 'astro:content';
+import PostLayout from '../../../layouts/PostLayout.astro';
+import { getPostsFor, nonDefaultLocales, postPaths } from '../../../lib/blog';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const locales = nonDefaultLocales();
+  const perLocale = await Promise.all(locales.map((locale) => getPostsFor(locale)));
+  return locales.flatMap((locale, i) => postPaths(perLocale[i], locale));
+};
+
+const { post } = Astro.props as { post: CollectionEntry<'blog'> };
+---
+
+<PostLayout post={post} />
