@@ -74,16 +74,15 @@ export function blogIndexPaths(
   });
 }
 
-// The about entry for a locale: the prefixed <locale>/about.md, or — for the
-// site's default locale only — the legacy unprefixed about.md, so pre-i18n
-// sites keep rendering their About page after an update.
+// The about entry for a locale: the prefixed <locale>/about.md wins; for the
+// site's default locale only, fall back to the legacy unprefixed about.md so
+// pre-i18n sites keep rendering their About page after an update.
 export async function getAboutFor(locale: Locale): Promise<CollectionEntry<'pages'> | undefined> {
   const pages = await getCollection('pages');
-  return pages.find(
-    (page) =>
-      page.id.startsWith(`${locale.toLowerCase()}/about`) ||
-      (locale === defaultLocale && page.id === 'about'),
-  );
+  const prefixed = pages.find((page) => page.id.startsWith(`${locale.toLowerCase()}/about`));
+  if (prefixed) return prefixed;
+  if (locale === defaultLocale) return pages.find((page) => page.id === 'about');
+  return undefined;
 }
 
 // getStaticPaths entries for the individual post routes.
