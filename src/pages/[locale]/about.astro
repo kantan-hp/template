@@ -1,0 +1,20 @@
+---
+// About page for the non-default locales.
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AboutView from '../../components/AboutView.astro';
+import { ui } from '../../i18n/ui';
+import type { Locale } from '../../i18n/ui';
+import { getAboutFor, localePaths, nonDefaultLocales } from '../../lib/blog';
+
+export const getStaticPaths: GetStaticPaths = () => localePaths(nonDefaultLocales());
+
+const locale = Astro.params.locale as Locale;
+const t = ui[locale];
+const about = await getAboutFor(locale);
+const title = about?.data.title ?? t.nav.About;
+---
+
+<BaseLayout title={title} description={about?.data.description}>
+  <AboutView locale={locale} about={about} />
+</BaseLayout>

@@ -22,6 +22,23 @@ public_folder: /images
 output:
   omit_empty_optional_fields: true
 
+# i18n: content lives in per-locale folders, e.g. src/content/blog/{locale}/.
+# Blog posts and standalone pages are editable per language (per-locale tabs in
+# the editor); shared values (dates, images, tags) are duplicated to every
+# locale. The Astro site serves the site's default language (site.lang) at / and
+# the others at their prefix.
+#
+# NOTE: `default_locale` here is the EDITOR's default tab. The kantan provisioner
+# templates it from the site's chosen language at creation (same value as
+# src/config.json site.lang, which the build uses as the real defaultLocale). If
+# an owner later changes the language in Settings, site.lang drives the build but
+# the editor keeps the provisioned default_locale until a re-provision.
+i18n:
+  structure: multiple_folders
+  locales: [en, ja, zh-Hant, zh-Hans]
+  default_locale: en
+  omit_default_locale_from_preview_path: true
+
 collections:
   # ---- Blog posts -----------------------------------------------------------
   - name: blog
@@ -32,27 +49,32 @@ collections:
     extension: md
     format: frontmatter
     preview_path: blog/{{slug}}
+    i18n: true
     fields:
-      - { label: Title, name: title, widget: string }
-      - { label: Description, name: description, widget: text, required: false }
-      - { label: Publish Date, name: pubDate, widget: datetime }
-      - { label: Updated Date, name: updatedDate, widget: datetime, required: false }
-      - { label: Hero Image, name: heroImage, widget: image, choose_url: true, required: false }
-      - { label: Tags, name: tags, widget: list, default: [] }
-      - { label: Draft, name: draft, widget: boolean, default: false }
-      - { label: Body, name: body, widget: markdown }
+      - { label: Title, name: title, widget: string, i18n: true }
+      - { label: Description, name: description, widget: text, required: false, i18n: true }
+      - { label: Publish Date, name: pubDate, widget: datetime, i18n: duplicate }
+      - { label: Updated Date, name: updatedDate, widget: datetime, required: false, i18n: duplicate }
+      - { label: Hero Image, name: heroImage, widget: image, choose_url: true, required: false, i18n: duplicate }
+      - { label: Tags, name: tags, widget: list, default: [], i18n: duplicate }
+      - { label: Draft, name: draft, widget: boolean, default: false, i18n: duplicate }
+      - { label: Body, name: body, widget: markdown, i18n: true }
 
   # ---- Standalone pages (About, etc.) --------------------------------------
+  # The {{locale}} placeholder creates a per-locale folder (multiple_folders),
+  # e.g. src/content/pages/{locale}/about.md, matching the Astro loader.
   - name: pages
     label: Pages
+    i18n: true
     files:
       - name: about
         label: About
-        file: src/content/pages/about.md
+        file: src/content/pages/{{locale}}/about.md
+        i18n: true
         fields:
-          - { label: Title, name: title, widget: string }
-          - { label: Description, name: description, widget: text, required: false }
-          - { label: Body, name: body, widget: markdown }
+          - { label: Title, name: title, widget: string, i18n: true }
+          - { label: Description, name: description, widget: text, required: false, i18n: true }
+          - { label: Body, name: body, widget: markdown, i18n: true }
 
   # ---- Site settings (src/config.json) -------------------------------------
   # The "lightweight WordPress" panel: edits below land on the live site on the
@@ -61,6 +83,9 @@ collections:
   # NOTE: src/config.json is a plain JSON object. `site` and `theme` are object
   # widgets so their edits bind to the real nested keys (the CMS treats a flat
   # field name as a literal key, so `site.title` would not nest).
+  #
+  # Settings are intentionally NOT localized — the site title, tagline, theme,
+  # nav and socials are global, not per-language.
   - name: settings
     label: Settings
     files:
@@ -76,6 +101,14 @@ collections:
               - { label: Site title, name: title, widget: string }
               - { label: Tagline, name: description, widget: text }
               - { label: Author, name: author, widget: string, required: false }
+              - label: Default language
+                name: lang
+                widget: select
+                options:
+                  - { label: English, value: en }
+                  - { label: 日本語, value: ja }
+                  - { label: 繁體中文, value: zh-Hant }
+                  - { label: 简体中文, value: zh-Hans }
           - label: Theme
             name: theme
             widget: object

@@ -1,12 +1,43 @@
 ---
-// Footer with a copyright line and social links (from the Settings tab).
+// Footer: copyright line, the language switcher (all four locales, native
+// names), and social links (from the Settings tab). Right-aligned per the
+// i18n decision — the header stays uncluttered.
 import { site } from '../config';
 import Socials from './Socials.astro';
+import { locales, nativeNames, ui } from '../i18n/ui';
+import type { Locale } from '../i18n/ui';
+import { getLanguageFromLocale, getLocaleFromPath, getLocalizedUrl } from '../i18n/utils';
+
+interface Props {
+  // Base path the language links are computed from; defaults to the current
+  // page so switching keeps you on the same page in each locale.
+  langSwitchBase?: string;
+}
+
+const { langSwitchBase } = Astro.props;
+const locale: Locale = getLocaleFromPath(Astro.url.pathname);
+const t = ui[locale];
+const switchBase = langSwitchBase ?? Astro.url.pathname;
 ---
 
 <footer class="site-footer">
   <div class="container inner">
     <span>© {new Date().getFullYear()} {site.title}</span>
-    <Socials />
+    <div class="footer-right">
+      <nav class="lang-switch" aria-label={t.footer.language}>
+          {
+            locales.map((lang) => (
+              <a
+                href={getLocalizedUrl(switchBase, lang)}
+                lang={getLanguageFromLocale(lang)}
+                aria-current={lang === locale ? 'true' : undefined}
+              >
+                {nativeNames[lang]}
+              </a>
+            ))
+          }
+      </nav>
+      <Socials />
+    </div>
   </div>
 </footer>

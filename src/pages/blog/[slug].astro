@@ -1,18 +1,15 @@
 ---
-// Individual blog post page. Drafts are not built (they only exist in the
-// editor), so the site and the editor show the same set of posts.
-import { getCollection } from 'astro:content';
+// Individual blog post pages at /blog/[slug]/, in the site's default language.
+import type { GetStaticPaths } from 'astro';
+import type { CollectionEntry } from 'astro:content';
 import PostLayout from '../../layouts/PostLayout.astro';
+import { defaultLocale } from '../../i18n/ui';
+import { getPostsFor, postPaths } from '../../lib/blog';
 
-export async function getStaticPaths() {
-  const posts = (await getCollection('blog')).filter((post) => !post.data.draft);
-  return posts.map((post) => ({
-    params: { slug: post.id },
-    props: { post },
-  }));
-}
+export const getStaticPaths: GetStaticPaths = async () =>
+  postPaths(await getPostsFor(defaultLocale));
 
-const { post } = Astro.props;
+const { post } = Astro.props as { post: CollectionEntry<'blog'> };
 ---
 
 <PostLayout post={post} />

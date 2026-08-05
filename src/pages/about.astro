@@ -1,30 +1,15 @@
 ---
-// About page: renders the editable page from src/content/pages/about.md
-// (the editor's "Pages" tab). Look up by ID so an extra page file in the
-// collection can't shift which entry /about renders.
-import { getEntry, render } from 'astro:content';
+// About page at /about/, in the site's default language.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import AboutView from '../components/AboutView.astro';
+import { defaultLocale, ui } from '../i18n/ui';
+import { getAboutFor } from '../lib/blog';
 
-const about = await getEntry('pages', 'about');
-const renderProps = about ? await render(about) : null;
+const t = ui[defaultLocale];
+const about = await getAboutFor(defaultLocale);
+const title = about?.data.title ?? t.nav.About;
 ---
 
-<BaseLayout title={about?.data.title ?? 'About'} description={about?.data.description}>
-  <div class="container" style="padding-top:2rem">
-    {
-      renderProps ? (
-        <article>
-          <h1>{about?.data.title}</h1>
-          <div class="prose">
-            <renderProps.Content />
-          </div>
-        </article>
-      ) : (
-        <p class="muted">
-          The About page hasn't been written yet — edit it from the editor's
-          Pages tab.
-        </p>
-      )
-    }
-  </div>
+<BaseLayout title={title} description={about?.data.description}>
+  <AboutView locale={defaultLocale} about={about} />
 </BaseLayout>

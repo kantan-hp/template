@@ -1,51 +1,31 @@
 ---
-// Blog index: lists published posts, newest first, paginated. Page 1 lives at
-// /blog/ and later pages at /blog/page/N/ so pagination URLs never collide with
-// post slugs in /blog/[slug].astro (a post numbered "2" would otherwise clash
-// with /blog/2/). The catch-all `[...page]` param carries the "page/N" segment.
-import { getCollection } from 'astro:content';
+// Blog index at /blog/, paginated, in the site's default language. Page 1
+// lives at /blog/ and later pages at /blog/page/N/ so pagination URLs never
+// collide with post slugs in blog/[slug].astro (a post numbered "2" would
+// otherwise clash with /blog/2/).
 import type { GetStaticPaths } from 'astro';
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Card from '../../components/Card.astro';
-import Pagination from '../../components/Pagination.astro';
+import BlogIndex from '../../components/BlogIndex.astro';
 import { site } from '../../config';
+import { defaultLocale, ui } from '../../i18n/ui';
+import type { Locale } from '../../i18n/ui';
+import { blogIndexPaths, getPostsFor } from '../../lib/blog';
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const pageSize = 6;
-  const posts = (await getCollection('blog'))
-    .filter((post) => !post.data.draft)
-    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-  const lastPage = Math.max(1, Math.ceil(posts.length / pageSize));
-  return Array.from({ length: lastPage }, (_, i) => {
-    const current = i + 1;
-    return {
-      params: { page: current === 1 ? undefined : `page/${current}` },
-      props: {
-        posts: posts.slice(i * pageSize, (i + 1) * pageSize),
-        currentPage: current,
-        lastPage,
-      },
-    };
-  });
-};
+export const getStaticPaths: GetStaticPaths = async () =>
+  blogIndexPaths(await getPostsFor(defaultLocale), { locale: defaultLocale, prefixed: false });
 
 interface Props {
   posts: CollectionEntry<'blog'>[];
   currentPage: number;
   lastPage: number;
+  locale: Locale;
 }
 
-const { posts, currentPage, lastPage } = Astro.props as Props;
+const { posts, currentPage, lastPage, locale } = Astro.props as Props;
+const t = ui[locale];
 ---
 
-<BaseLayout title="Blog" description={`Latest posts from ${site.title}.`}>
-  <div class="container" style="padding-top:2rem">
-    <h1>Blog</h1>
-    <p class="muted">Latest articles</p>
-    <ul class="post-list">
-      {posts.map((post) => <Card post={post} />)}
-    </ul>
-    <Pagination page={currentPage} totalPages={lastPage} />
-  </div>
+<BaseLayout title={t.blog.title} description={t.blog.description(site.title)}>
+  <BlogIndex posts={posts} currentPage={currentPage} lastPage={lastPage} locale={locale} />
 </BaseLayout>
