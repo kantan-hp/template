@@ -1,18 +1,24 @@
 ---
 // A single blog post card, used on the homepage and the blog index.
+// The post link is locale-aware so cards stay inside the current locale.
 import type { CollectionEntry } from 'astro:content';
 import Datetime from './Datetime.astro';
 import Tag from './Tag.astro';
+import type { Locale } from '../i18n/ui';
+import { getLocaleFromPath, getLocalizedUrl } from '../i18n/utils';
 
 interface Props {
   post: CollectionEntry<'blog'>;
 }
 
 const { post } = Astro.props;
+const locale: Locale = getLocaleFromPath(Astro.url.pathname);
+const slug = post.id.split('/').slice(1).join('/').replace(/\.md$/, '');
+const href = getLocalizedUrl(`/blog/${slug}/`, locale);
 ---
 
 <li>
-  <a class="post-card" href={`/blog/${post.id}/`}>
+  <a class="post-card" href={href}>
     <h3>{post.data.title}</h3>
     <div class="card-meta">
       <Datetime date={post.data.pubDate} />

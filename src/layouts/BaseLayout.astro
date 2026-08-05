@@ -4,6 +4,9 @@
 // light/dark is resolved at runtime before paint (FOUC-prevention script).
 import '../styles/global.css';
 import { site, theme } from '../config';
+import { ui } from '../i18n/ui';
+import type { Locale } from '../i18n/ui';
+import { getLanguageFromLocale, getLocaleFromUrl, getLocalizedUrl } from '../i18n/utils';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Main from '../components/Main.astro';
@@ -11,11 +14,18 @@ import Main from '../components/Main.astro';
 interface Props {
   title?: string;
   description?: string;
+  // When set, the footer language switcher links from this path instead of the
+  // current one. The 404 page uses '/' so the switcher always lands on a real
+  // locale page.
+  langSwitchBase?: string;
 }
 
-const { title, description } = Astro.props;
+const { title, description, langSwitchBase } = Astro.props;
+const locale: Locale = getLocaleFromUrl(Astro.url);
+const t = ui[locale];
 const pageTitle = title ? `${title} — ${site.title}` : site.title;
 const pageDescription = description ?? site.description;
+const rssUrl = getLocalizedUrl('/rss.xml', locale);
 
 // Canonical/og:url are only meaningful once a real site URL is configured
 // (PUBLIC_SITE_URL or site.url). Until then `site` falls back to the
@@ -30,7 +40,7 @@ const canonicalURL = hasRealSite
 ---
 
 <!doctype html>
-<html lang="en" data-preset={theme.preset}>
+<html lang={getLanguageFromLocale(locale)} data-preset={theme.preset}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -40,7 +50,7 @@ const canonicalURL = hasRealSite
     <meta name="author" content={site.author} />
     <meta name="generator" content={Astro.generator} />
     {canonicalURL && <link rel="canonical" href={canonicalURL} />}
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />    <link rel="alternate" type="application/rss+xml" title={site.title} href="/rss.xml" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />    <link rel="alternate" type="application/rss+xml" title={site.title} href={rssUrl} />
     <meta name="theme-color" content="" />
 
     <!-- Open Graph -->
@@ -68,12 +78,12 @@ const canonicalURL = hasRealSite
     </script>
   </head>
   <body>
-    <a class="skip-link" href="#main-content">Skip to content</a>
+    <a class="skip-link" href="#main-content">{t.skipToContent}</a>
     <Header />
     <Main>
       <slot />
     </Main>
-    <Footer />
+    <Footer langSwitchBase={langSwitchBase} />
     <script>
       import '../scripts/theme';
     </script>

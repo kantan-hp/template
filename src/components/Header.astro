@@ -1,34 +1,48 @@
 ---
 // Shared page header: brand, nav (from the Settings tab) and theme toggle.
+// Nav labels are translated when they match the default labels; custom labels
+// show as authored. Internal nav URLs are locale-aware.
 import { site, nav } from '../config';
+import { ui } from '../i18n/ui';
+import type { Locale } from '../i18n/ui';
+import { getLocaleFromPath, getLocalizedUrl } from '../i18n/utils';
+
+const locale: Locale = getLocaleFromPath(Astro.url.pathname);
+const t = ui[locale];
 
 const current = Astro.url.pathname;
 
 const isActive = (path: string) => {
-  if (path === '/') return current === '/';
-  return current === path || current.startsWith(`${path}/`);
+  const localized = getLocalizedUrl(path, locale);
+  if (localized === '/') return current === '/';
+  return current === localized || current.startsWith(`${localized}/`);
+};
+
+const navHref = (url: string) => {
+  if (url.startsWith('/') && !url.startsWith('//')) return getLocalizedUrl(url, locale);
+  return url;
 };
 ---
 
 <header class="site-header">
   <div class="container inner">
-    <a class="brand" href="/">{site.title}</a>
-    <nav class="site-nav" aria-label="Main navigation">
+    <a class="brand" href={getLocalizedUrl('/', locale)}>{site.title}</a>
+    <nav class="site-nav" aria-label={t.navLabel}>
       {
         nav.map((item) => (
           <a
-            href={item.url}
+            href={navHref(item.url)}
             aria-current={isActive(item.url) ? 'page' : undefined}
           >
-            {item.label}
+            {t.nav[item.label] ?? item.label}
           </a>
         ))
       }
       <button
         id="theme-toggle"
         class="theme-toggle"
-        aria-label="Toggle light/dark theme"
-        title="Toggle light/dark theme"
+        aria-label={t.themeToggle}
+        title={t.themeToggle}
       >
         <svg
           class="icon-sun"

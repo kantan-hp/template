@@ -167,6 +167,35 @@ body {
   gap: 0.75rem;
 }
 
+.footer-right {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+/* Language switcher (footer, right-aligned) */
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.lang-switch a {
+  color: var(--muted-foreground);
+  padding: 0.1rem 0;
+}
+
+.lang-switch a:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.lang-switch a[aria-current='true'] {
+  color: var(--accent);
+  font-weight: 600;
+}
+
 .social-links {
   display: flex;
   gap: 1rem;

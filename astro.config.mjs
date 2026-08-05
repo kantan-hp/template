@@ -24,6 +24,15 @@ export default defineConfig({
   site: resolveSite(),
   integrations: [sitemap()],
   output: 'static',
+  // i18n: the four README locales. English is the default and is served
+  // unprefixed (/) — other locales live at /ja/, /zh-Hant/, /zh-Hans/.
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'ja', 'zh-Hant', 'zh-Hans'],
+    routing: {
+      prefixDefaultLocale: false,
+    },
+  },
   server: {
     port: 4321,
   },

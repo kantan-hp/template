@@ -1,20 +1,29 @@
 ---
-// Newer/older links for the paginated blog index.
+// Newer/older links for the paginated blog index. Hrefs are locale-aware.
+import { ui } from '../i18n/ui';
+import type { Locale } from '../i18n/ui';
+import { getLocalizedUrl } from '../i18n/utils';
+
 interface Props {
   page: number;
   totalPages: number;
+  locale: Locale;
 }
 
-const { page, totalPages } = Astro.props;
+const { page, totalPages, locale } = Astro.props;
+const t = ui[locale];
+
 const prevHref = page > 1 ? (page === 2 ? '/blog/' : `/blog/page/${page - 1}/`) : null;
 const nextHref = page < totalPages ? `/blog/page/${page + 1}/` : null;
+const prevUrl = prevHref ? getLocalizedUrl(prevHref, locale) : null;
+const nextUrl = nextHref ? getLocalizedUrl(nextHref, locale) : null;
 ---
 
-<nav class="pagination" aria-label="Blog pages">
-  {prevHref ? (
-    <a href={prevHref}>← Newer</a>
+<nav class="pagination" aria-label={t.pagination.ariaLabel}>
+  {prevUrl ? (
+    <a href={prevUrl}>{t.pagination.newer}</a>
   ) : (
-    <span class="disabled">← Newer</span>
+    <span class="disabled">{t.pagination.newer}</span>
   )}
-  {nextHref ? <a href={nextHref}>Older →</a> : <span class="disabled">Older →</span>}
+  {nextUrl ? <a href={nextUrl}>{t.pagination.older}</a> : <span class="disabled">{t.pagination.older}</span>}
 </nav>
