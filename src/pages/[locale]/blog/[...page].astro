@@ -14,7 +14,7 @@ import { blogIndexPaths, getPostsFor, nonDefaultLocales } from '../../../lib/blo
 export const getStaticPaths: GetStaticPaths = async () => {
   const locales = nonDefaultLocales();
   const perLocale = await Promise.all(locales.map((locale) => getPostsFor(locale)));
-  return locales.flatMap((locale, i) => blogIndexPaths(perLocale[i], locale));
+  return locales.flatMap((locale, i) => blogIndexPaths(perLocale[i], { locale, prefixed: true }));
 };
 
 interface Props {

@@ -125,7 +125,11 @@ locale is baked into Astro's `defaultLocale` at build time and serves **unprefix
   authored per locale and not part of the dictionary.
 - **The language switcher** is in the footer, right-aligned, showing the four native names;
   the current locale is marked. It switches to the same page in each locale. Because it
-  lives in `BaseLayout`'s footer, it appears on every page.
+  lives in `BaseLayout`'s footer, it appears on every page. **Known limitation:** the switcher
+  links to the same path in each locale even when that page has no translation — a post that
+  exists only in English gives `/ja/blog/<slug>/`, which lands on the (default-locale) 404 with
+  the switcher + a home link. Translating a post (creating its `<locale>/` file) makes the
+  switch land correctly.
 - **The editor** shows per-locale tabs for blog posts and pages (Sveltia `i18n` with
   `multiple_folders`). Dates, hero images and tags are duplicated across locales; titles,
   descriptions and bodies are translated. Settings (`src/config.json`) is **not** localized —
@@ -144,6 +148,11 @@ locale is baked into Astro's `defaultLocale` at build time and serves **unprefix
   provisioned `default_locale` until a re-provision.
 - **Seed content is English-only** (a single-locale welcome + about). A site born in another
   language starts with an empty blog in that language — content is author-authored.
+- **Legacy (pre-i18n) sites:** content that was created before this template (top-level
+  `src/content/blog/<slug>.md`, `src/content/pages/about.md`) is treated as belonging to the
+  site's default locale, so an updated existing site keeps rendering its posts and About page.
+  New content is written into the per-locale folders. If a `<locale>/` file and an unprefixed
+  file would produce the same slug, the prefixed one wins.
 
 ## Editor login (one time)
 

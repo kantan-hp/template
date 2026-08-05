@@ -13,7 +13,7 @@ interface Props {
 
 const { post } = Astro.props;
 const locale: Locale = getLocaleFromPath(Astro.url.pathname);
-const slug = post.id.split('/').slice(1).join('/').replace(/\.md$/, '');
+const slug = post.id.replace(/^[^/]+\//, '').replace(/\.md$/, '');
 const href = getLocalizedUrl(`/blog/${slug}/`, locale);
 ---
 

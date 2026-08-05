@@ -1,10 +1,15 @@
 ---
-// English About page at /about/.
+// About page at /about/, in the site's default language.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import AboutView from '../components/AboutView.astro';
-import { defaultLocale } from '../i18n/ui';
+import { defaultLocale, ui } from '../i18n/ui';
+import { getAboutFor } from '../lib/blog';
+
+const t = ui[defaultLocale];
+const about = await getAboutFor(defaultLocale);
+const title = about?.data.title ?? t.nav.About;
 ---
 
-<BaseLayout>
-  <AboutView locale={defaultLocale} />
+<BaseLayout title={title} description={about?.data.description}>
+  <AboutView locale={defaultLocale} about={about} />
 </BaseLayout>
