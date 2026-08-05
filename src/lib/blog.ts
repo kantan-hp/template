@@ -4,14 +4,15 @@
 // duplicated.
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
-import { locales } from '../i18n/ui';
+import { defaultLocale, locales } from '../i18n/ui';
 import type { Locale } from '../i18n/ui';
 
 export const PAGE_SIZE = 6;
 
-// The locales rendered by the [locale]/ pages (English is the root layer).
+// The locales rendered by the [locale]/ pages — everything except the site's
+// default language (which serves at the root).
 export function nonDefaultLocales(): Locale[] {
-  return locales.filter((locale) => locale !== 'en');
+  return locales.filter((locale) => locale !== defaultLocale);
 }
 
 // getStaticPaths entries for the simple [locale] routes (index, about, rss).

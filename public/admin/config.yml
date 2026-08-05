@@ -94,6 +94,14 @@ collections:
               - { label: Site title, name: title, widget: string }
               - { label: Tagline, name: description, widget: text }
               - { label: Author, name: author, widget: string, required: false }
+              - label: Default language
+                name: lang
+                widget: select
+                options:
+                  - { label: English, value: en }
+                  - { label: 日本語, value: ja }
+                  - { label: 繁體中文, value: zh-Hant }
+                  - { label: 简体中文, value: zh-Hans }
           - label: Theme
             name: theme
             widget: object

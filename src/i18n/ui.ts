@@ -1,9 +1,18 @@
 // UI string dictionary for the four kantan locales, matching the README's
 // translations (English, 日本語, 繁體中文, 简体中文). Keyed by BCP-47 locale.
+import { site } from '../config';
 
 export const locales = ['en', 'ja', 'zh-Hant', 'zh-Hans'] as const;
 export type Locale = (typeof locales)[number];
-export const defaultLocale: Locale = 'en';
+
+export function isLocale(value: string | undefined): value is Locale {
+  return !!value && (locales as readonly string[]).includes(value);
+}
+
+// The site's default locale, read from src/config.json `site.lang` (fallback
+// en). It is baked into Astro's `defaultLocale` at build time (model a), so
+// this site's default language serves at `/` and the others are prefixed.
+export const defaultLocale: Locale = isLocale(site.lang) ? site.lang : 'en';
 
 // Native names shown in the footer language switcher (identical in every
 // locale by design).

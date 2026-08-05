@@ -27,6 +27,10 @@ export interface SiteSettings {
     description?: string;
     author?: string;
     url?: string;
+    // The site's default language (BCP-47). Drives the Astro `defaultLocale`
+    // at build time (model a) — the chosen locale serves at `/`. The kantan
+    // provisioner sets this when a site is created; fallback `en`.
+    lang?: string;
   };
   theme?: {
     preset?: string;
@@ -43,6 +47,7 @@ export const site = {
     settings.site?.description ??
     'A free, simple blog you can publish in minutes — no server, no database, no code.',
   author: settings.site?.author ?? 'Kantan HP',
+  lang: settings.site?.lang ?? 'en',
 };
 
 export const theme = {

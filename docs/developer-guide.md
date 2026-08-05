@@ -114,10 +114,11 @@ locale filters are case-insensitive.
 ## Internationalization
 
 The site ships four locales — English, 日本語, 繁體中文, 简体中文 — matching the README
-translations. English is the default and is served **unprefixed** (`/`, `/blog/`, ...); the
-others live at `/ja/`, `/zh-Hant/`, `/zh-Hans/`. Routing is configured in
-`astro.config.mjs` (`i18n` block) and the English pages sit at the root of `src/pages/`
-with the other locales under `src/pages/[locale]/`.
+translations. The site's **default language** is `site.lang` in `src/config.json` (fallback
+`en`; the kantan panel sets it when a site is created). Routing is **model (a)**: the default
+locale is baked into Astro's `defaultLocale` at build time and serves **unprefixed** (`/`,
+`/blog/`, ...); the other three live at their exact-code prefix (`/en/`, `/ja/`, `/zh-Hant/`,
+`/zh-Hans/` as appropriate). English sites behave exactly as before (English at `/`).
 
 - **UI strings** (nav, hero, buttons, pagination, 404, skip link) live in
   `src/i18n/ui.ts`, keyed by locale. Content (posts, about pages, site title/tagline) is
@@ -127,12 +128,15 @@ with the other locales under `src/pages/[locale]/`.
   lives in `BaseLayout`'s footer, it appears on every page.
 - **The editor** shows per-locale tabs for blog posts and pages (Sveltia `i18n` with
   `multiple_folders`). Dates, hero images and tags are duplicated across locales; titles,
-  descriptions and bodies are translated. The Settings tab (`src/config.json`) is **not**
-  localized — the site title, theme and nav are global.
+  descriptions and bodies are translated. Settings (`src/config.json`) is **not** localized —
+  the site title, theme and nav are global — but it carries the `lang` select so the default
+  language survives CMS saves (changing it changes which locale serves at `/`).
 - **To add a locale:** add it to `i18n.locales` in `astro.config.mjs`, add its strings to
   `src/i18n/ui.ts`, add a `src/content/blog/<locale>/` (and `pages/<locale>/`) folder, and
   add it to `i18n.locales` + the blog/pages collections in `public/admin/config.yml`.
-- **RSS** is per-locale: `/rss.xml` (English) and `/<locale>/rss.xml`.
+- **RSS** is per-locale: `/rss.xml` (the default locale) and `/<locale>/rss.xml`.
+- **Seed content is English-only** (a single-locale welcome + about). A site born in another
+  language starts with an empty blog in that language — content is author-authored.
 
 ## Editor login (one time)
 
