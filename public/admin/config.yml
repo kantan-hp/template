@@ -25,7 +25,14 @@ output:
 # i18n: content lives in per-locale folders, e.g. src/content/blog/{locale}/.
 # Blog posts and standalone pages are editable per language (per-locale tabs in
 # the editor); shared values (dates, images, tags) are duplicated to every
-# locale. The Astro site serves English at / and the others at /<locale>/.
+# locale. The Astro site serves the site's default language (site.lang) at / and
+# the others at their prefix.
+#
+# NOTE: `default_locale` here is the EDITOR's default tab. The kantan provisioner
+# templates it from the site's chosen language at creation (same value as
+# src/config.json site.lang, which the build uses as the real defaultLocale). If
+# an owner later changes the language in Settings, site.lang drives the build but
+# the editor keeps the provisioned default_locale until a re-provision.
 i18n:
   structure: multiple_folders
   locales: [en, ja, zh-Hant, zh-Hans]

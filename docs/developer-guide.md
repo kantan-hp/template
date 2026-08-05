@@ -135,6 +135,13 @@ locale is baked into Astro's `defaultLocale` at build time and serves **unprefix
   `src/i18n/ui.ts`, add a `src/content/blog/<locale>/` (and `pages/<locale>/`) folder, and
   add it to `i18n.locales` + the blog/pages collections in `public/admin/config.yml`.
 - **RSS** is per-locale: `/rss.xml` (the default locale) and `/<locale>/rss.xml`.
+- **The 404** is pre-rendered once in the site's default locale (`output: 'static'`) — per-locale
+  404 strings only appear in `astro dev`/SSR. On static hosts a missing `/ja/...` path serves the
+  default-locale 404; the footer switcher still links visitors to each locale's home.
+- **Editor default tab:** Sveltia's `i18n.default_locale` is templated from `site.lang` at
+  provisioning (fyi), so new sites open the editor in their language. If an owner later changes
+  the language in Settings, the build default follows `site.lang` but the editor keeps the
+  provisioned `default_locale` until a re-provision.
 - **Seed content is English-only** (a single-locale welcome + about). A site born in another
   language starts with an empty blog in that language — content is author-authored.
 
