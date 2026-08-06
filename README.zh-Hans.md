@@ -19,6 +19,8 @@
 - 一个**免费运行的现成博客**（架设于 Cloudflare Pages）
 - 位于 `your-site.com/admin` 的**网页编辑器** — 写文章、加图片、按发布
 - **设置（Settings）选项卡** — 无需代码即可修改站点标题、标语和主题
+- **语言切换器** — 站点内置英文、日本語、繁體中文、简体中文；读者可在页脚切换语言，
+  编辑者可为文章和页面使用按语言分组的标签页
 - 一篇已发布的欢迎文章，首次部署后网站就是"活的"
 - 编辑者不需要碰代码或 git，只需要浏览器。
 
@@ -26,12 +28,12 @@
 
 ## 如何开始
 
-1. **复制一份**这个项目 — [**Fork 此存储库**](https://github.com/lavasecurity/kantan-hp/fork)。
+1. **复制一份**这个项目 — [**Fork 此存储库**](https://github.com/kantan-hp/template/fork)。
 2. **连接到 Cloudflare Pages** 并发布。Cloudflare 会给你一个免费的网址。
 3. 在 **`your-site.com/admin`** 开始写文章。
 
 ### 步骤 1 — 复制一份
-按 **[Fork](https://github.com/lavasecurity/kantan-hp/fork)**（或此页上方的 **Fork** 按钮），在 GitHub 账号中建立一份自己的副本。
+按 **[Fork](https://github.com/kantan-hp/template/fork)**（或此页上方的 **Fork** 按钮），在 GitHub 账号中建立一份自己的副本。
 如果还没有 GitHub 账号，可到 [github.com](https://github.com) 免费建立。
 
 ### 步骤 2 — 发布（仅需一次）
@@ -71,6 +73,17 @@
 **作者**、**主题**（从内置的 AstroPaper 配色方案中选择），以及**导航**链接。按 **Publish** 即可自动更新到线上网站 — 无需写代码。
 
 编辑**关于（About）**页面，请使用编辑器中的 **页面（Pages）** 选项卡。
+
+---
+
+## 保持站点更新
+
+由 **kantan 面板**创建的站点，在模板发布新版站点核心时，仪表盘上会显示 **Update available**
+徽标。面板只提供通过了 **fitness gate（适配门禁）** 的更新（您的文章、图片和设置绝不会被覆盖；
+自定义过的站点会被阻止更新，而不是被破坏），并会为您重新注入编辑器的登录信息。
+确切的用户数据契约请见 **[开发者指南](docs/developer-guide.md#versioning-and-updates-panel-provisioned-sites)**。
+
+通过点击 **Fork** 创建的普通分叉由您自己自由管理更新 — 不会有任何自动化操作。
 
 ---
 

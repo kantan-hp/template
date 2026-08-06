@@ -19,7 +19,11 @@ export async function onRequest(context) {
     const redirectUrl = new URL('https://github.com/login/oauth/authorize');
     redirectUrl.searchParams.set('client_id', client_id);
     redirectUrl.searchParams.set('redirect_uri', url.origin + '/api/callback');
-    redirectUrl.searchParams.set('scope', 'repo');
+    // public_repo is the least-privilege scope for kantan: every fork of this
+    // public template is itself public, so the editor only needs read/write on
+    // public repositories. Pointing `repo:` at a PRIVATE repository requires
+    // reverting this to `repo` (see docs/github-oauth-setup.md).
+    redirectUrl.searchParams.set('scope', 'public_repo');
     const state = crypto.randomUUID().replaceAll('-', '');
     redirectUrl.searchParams.set('state', state);
 

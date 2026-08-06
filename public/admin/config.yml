@@ -3,15 +3,15 @@
 # config.yml schema, so this file is compatible with both.)
 #
 # Forks: the only thing you MUST change here is `repo` — set it to your own
-# fork, e.g. your-username/kantan-hp. Everything else is handled automatically:
+# fork, e.g. your-username/template. Everything else is handled automatically:
 # `base_url` and `auth_endpoint` are injected at runtime by the kantan panel
 # for provisioned sites (or by admin/index.html for classic forks) so the OAuth
 # flow works on any fork or custom domain without further edits.
 
 backend:
   name: github
-  # IMPORTANT: update to your own GitHub fork, e.g. your-username/kantan-hp
-  repo: lavasecurity/kantan-hp
+  # IMPORTANT: update to your own GitHub fork, e.g. your-username/template
+  repo: kantan-hp/template
   branch: main
 
 media_folder: public/images

@@ -87,9 +87,13 @@ fork**, not the upstream:
 ```yaml
 backend:
   name: github
-  repo: <your-github-user>/kantan-hp
+  repo: <your-github-user>/template
   branch: main
 ```
+
+The login flow requests the `public_repo` OAuth scope, which is sufficient because your
+fork of this public template is public too. If you intentionally point `repo:` at a
+**private** repository, revert `scope` to `repo` in `functions/api/auth.js`.
 
 You don't need to set `base_url` or `auth_endpoint` — `public/admin/index.html` injects
 them automatically (using your site's own origin), so `/admin` works on any fork or
