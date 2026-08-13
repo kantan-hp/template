@@ -85,6 +85,18 @@ export async function getAboutFor(locale: Locale): Promise<CollectionEntry<'page
   return undefined;
 }
 
+// Locales that have a published post with the given slug (for hreflang
+// alternates: only announce locales where the post actually exists, so a
+// translation-missing locale never advertises a 404 alternate).
+export async function localesForSlug(slug: string): Promise<Locale[]> {
+  const out: Locale[] = [];
+  for (const locale of locales) {
+    const posts = await getPostsFor(locale);
+    if (posts.some((post) => slugOf(post) === slug)) out.push(locale);
+  }
+  return out;
+}
+
 // getStaticPaths entries for the individual post routes.
 export function postPaths(posts: CollectionEntry<'blog'>[], locale?: Locale) {
   return posts.map((post) => ({
