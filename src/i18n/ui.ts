@@ -100,7 +100,7 @@ export const ui: Record<Locale, UIStrings> = {
     themeToggle: 'ライト/ダークテーマを切り替え',
     hero: {
       readBlog: 'ブログを読む',
-      openEditor: 'エディターを開く',
+      openEditor: 'エディタを開く',
       latestPosts: '最新の投稿',
       viewAll: 'すべて見る',
       noPostsBefore: 'まだ投稿がありません — ',
@@ -116,7 +116,7 @@ export const ui: Record<Locale, UIStrings> = {
     footer: { language: '言語を選択' },
     about: {
       notWritten:
-        '「このサイトについて」のページはまだ書かれていません — エディターの「ページ」タブから編集してください。',
+        '「このサイトについて」のページはまだ書かれていません — エディタの「ページ」タブから編集してください。',
     },
     notFound: { title: '見つかりません', body: 'このページは存在しません。', goHome: 'ホームへ' },
   },
