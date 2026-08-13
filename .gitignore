@@ -16,3 +16,4 @@ dist/
 
 # envinfo, caching
 .tmp/
+.reviews/

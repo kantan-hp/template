@@ -12,6 +12,11 @@ on:
 
 jobs:
   code-review:
+    # This caller ships to every user fork, where OCR_LLM_AUTH_TOKEN can never
+    # exist — a required secret that's empty fails the run at startup. Gate it
+    # on an opt-in repo variable set only on kantan-hp/template itself, so forks
+    # skip cleanly instead of showing a permanent red ❌ on every PR.
+    if: ${{ vars.KANTAN_OCR_ENABLED == 'true' }}
     permissions:
       contents: read
       pull-requests: write

@@ -28,12 +28,12 @@ through a friendly web dashboard — no coding, no server, no database to manage
 
 ## How to get started
 
-1. **Make your own copy** — [**Fork this repo**](https://github.com/lavasecurity/kantan-hp/fork).
+1. **Make your own copy** — [**Fork this repo**](https://github.com/kantan-hp/template/fork).
 2. **Connect it to Cloudflare Pages** so it goes live. Cloudflare gives you a free website address.
 3. **Start writing** at `your-site.com/admin`.
 
 ### Step 1 — Make a copy
-Click **[Fork](https://github.com/lavasecurity/kantan-hp/fork)** (or press the **Fork** button at the top of this page) to create your own copy in your GitHub account. If you don't have a GitHub account yet, it's free to create one at [github.com](https://github.com).
+Click **[Fork](https://github.com/kantan-hp/template/fork)** (or press the **Fork** button at the top of this page) to create your own copy in your GitHub account. If you don't have a GitHub account yet, it's free to create one at [github.com](https://github.com).
 
 ### Step 2 — Publish it (one time)
 Go to [Cloudflare](https://dash.cloudflare.com) → **Workers & Pages** → **Create application**. On the **Create a Worker** page there's a small link at the bottom: **"Looking to deploy Pages? Get started"** — click it. It leads to the Pages setup that shows the framework preset and output directory. Then:

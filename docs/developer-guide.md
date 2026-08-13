@@ -13,7 +13,7 @@ local setup, customization, and the internals of the starter.
 ## Run locally
 
 ```bash
-git clone https://github.com/lavasecurity/kantan-hp.git
+git clone https://github.com/kantan-hp/template.git
 cd kantan-hp
 npm install
 npm run dev          # http://localhost:4321
