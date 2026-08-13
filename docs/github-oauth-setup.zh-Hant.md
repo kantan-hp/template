@@ -35,7 +35,7 @@
 ## A. 一次性設定 Action（建議）
 
 本儲存庫內附一個工作流程（`.github/workflows/sveltia-oauth-setup.yml`），會把兩個認證資訊
-寫入你的 Cloudflare Pages 專案並重新部署。認證資訊會以**儲存庫密鑰**儲存（不會出現在日誌中），
+寫入你的 Cloudflare Pages 專案並重新部署。認證資訊會以**儲存庫密碼**儲存（不會出現在日誌中），
 只需新增一次：
 
 1. 取得 **Cloudflare API 令牌**（Cloudflare 儀表板 → My Profile → **API Tokens** →
@@ -46,7 +46,7 @@
    - `CF_API_TOKEN` = 上述令牌
    - `CF_ACCOUNT_ID` = 你的 Cloudflare 帳戶 ID
    - `CF_DEPLOY_HOOK`（選填）= Cloudflare 的 deploy hook URL（見下方）。若要工作流程
-     自動重新部署，請設定此密鑰
+     自動重新部署，請設定此密碼
 3. 前往 **Actions → "Setup Sveltia CMS login" → Run workflow**，只輸入 **Project name**
    （`*.pages.dev` URL 中的專案名稱）。
 
@@ -54,7 +54,7 @@
 deploy hook 重新部署你的網站。這樣就完成了 — 開啟 `/admin`，用 GitHub 登入即可。
 
 **選填的 deploy hook：** 若要工作流程自行觸發重新部署，請先在 Cloudflare 的 Pages 專案 →
-**Settings → Builds → Add deploy hook** 建立，並將其 URL 設為 `CF_DEPLOY_HOOK` 密鑰。
+**Settings → Builds → Add deploy hook** 建立，並將其 URL 設為 `CF_DEPLOY_HOOK` 密碼。
 若不設定，新的環境變數會在你下次 git push 時生效。
 
 ---
@@ -66,7 +66,7 @@ deploy hook 重新部署你的網站。這樣就完成了 — 開啟 `/admin`，
 2. 新增兩個變數：
    - `OAUTH_GITHUB_CLIENT_ID` = 你的 Client ID
    - `OAUTH_GITHUB_CLIENT_SECRET` = 你的 Client secret
-3. 將 secret 標記為**密鑰**，以免出現在建置日誌。
+3. 將 secret 標記為**密碼**，以免出現在建置日誌。
 4. 儲存並重新部署網站，讓新變數生效。
 
 ---
