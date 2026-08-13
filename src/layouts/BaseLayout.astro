@@ -58,16 +58,22 @@ const resolvedSite = import.meta.env.SITE ?? '';
 const hasRealSite = Boolean(siteUrl) && !resolvedSite.includes('your-site.example.com');
 const canonicalURL = hasRealSite ? new URL(Astro.url.pathname, siteUrl!).href : undefined;
 
-// hreflang alternates; x-default points at the default locale's URL.
+// hreflang alternates; x-default points at the default locale's URL when that
+// locale actually has the page, otherwise at the page's own locale (the only
+// locale guaranteed to have it).
 const pagePath = getPathWithoutLocale(Astro.url.pathname);
 const alternates: Locale[] = hreflangLocales ?? [...locales];
+const xDefaultLocale: Locale = alternates.includes(defaultLocale) ? defaultLocale : locale;
 const hreflang = hasRealSite
   ? [
       ...alternates.map((l) => ({
         lang: l,
         href: new URL(getLocalizedUrl(pagePath, l), siteUrl!).href,
       })),
-      { lang: 'x-default', href: new URL(getLocalizedUrl(pagePath, defaultLocale), siteUrl!).href },
+      {
+        lang: 'x-default',
+        href: new URL(getLocalizedUrl(pagePath, xDefaultLocale), siteUrl!).href,
+      },
     ]
   : [];
 
