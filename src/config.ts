@@ -56,6 +56,23 @@ export const theme = {
   preset: settings.theme?.preset ?? 'paper',
 };
 
+// `theme-color` (mobile browser chrome) for the active preset. Light-first
+// presets use their light accent; the "paper light + dark accent" presets
+// (deep-purple, ember, espresso) are defined by their dark accent. Mirrors the
+// accent values in src/styles/themes.css.
+const PRESET_THEME_COLORS: Record<string, string> = {
+  paper: '#006cac',
+  'kha-yan': '#6e10cf',
+  nila: '#6760b4',
+  jadeite: '#027c6d',
+  'pyit-tine-htaung': '#aa0215',
+  'deep-purple': '#eb3fd3',
+  ember: '#ff3737',
+  espresso: '#ee781e',
+};
+
+export const themeColor = PRESET_THEME_COLORS[theme.preset] ?? PRESET_THEME_COLORS.paper;
+
 export const nav: NavItem[] = settings.nav ?? [];
 
 export const socials: SocialItem[] = settings.socials ?? [];
