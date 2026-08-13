@@ -114,7 +114,7 @@ const websiteJsonLd =
     <meta property="og:description" content={pageDescription} />
     {canonicalURL && <meta property="og:url" content={canonicalURL} />}
     <meta property="og:locale" content={locale} />
-    {locales
+    {alternates
       .filter((l) => l !== locale)
       .map((l) => <meta property="og:locale:alternate" content={l} />)}
     {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
