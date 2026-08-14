@@ -27,9 +27,10 @@ npm run check        # typecheck (Astro/TS)
 
 ## Deploy
 
-Build command `npm run build`, output directory `dist`. Deploy the `dist/` folder
-anywhere (Cloudflare Pages, Netlify, Vercel, S3, ...). See the README for the
-Cloudflare Pages "Connect to Git" steps.
+Build command `npm run build`, output directory `dist`. The normal path to a live
+site is the **kantan panel** (https://kantan-hp.fyi), which provisions a direct-upload
+Cloudflare Pages project plus a deploy workflow for you. You can also deploy the
+`dist/` folder anywhere (Cloudflare Pages, Netlify, Vercel, S3, ...).
 
 > Change `site` in [`astro.config.mjs`](../astro.config.mjs) from the placeholder
 > `https://your-site.example.com` to your real domain so the RSS feed and sitemap point
@@ -154,10 +155,14 @@ locale is baked into Astro's `defaultLocale` at build time and serves **unprefix
   New content is written into the per-locale folders. If a `<locale>/` file and an unprefixed
   file would produce the same slug, the prefixed one wins.
 
-## Editor login (one time)
+## Editor login
 
-To publish from `/admin`, the editor must authenticate to GitHub on your behalf. Follow
-[`docs/github-oauth-setup.md`](github-oauth-setup.md).
+To publish from `/admin`, the editor authenticates to GitHub through the panel's shared
+OAuth proxy. Sites created by the kantan panel are configured automatically — the panel
+injects the editor's `repo`, `base_url`, and `auth_endpoint` into
+`public/admin/config.yml` at provisioning, so there is nothing to set up. For a manual
+fork, point `repo` at your own repository and create the site through the panel to get a
+working editor login.
 
 ## Versioning and updates (panel-provisioned sites)
 

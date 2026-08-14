@@ -2,11 +2,10 @@
 # (Sveltia CMS — the Svelte successor to Netlify/Decap CMS. It reads the same
 # config.yml schema, so this file is compatible with both.)
 #
-# Forks: the only thing you MUST change here is `repo` — set it to your own
-# fork, e.g. your-username/template. Everything else is handled automatically:
-# `base_url` and `auth_endpoint` are injected at runtime by the kantan panel
-# for provisioned sites (or by admin/index.html for classic forks) so the OAuth
-# flow works on any fork or custom domain without further edits.
+# The kantan panel injects `repo`, `base_url`, and `auth_endpoint` into this file
+# at provisioning, so the OAuth flow works on any site or custom domain without
+# further edits. This file is a template — point `repo` at your own repository
+# before editing manually.
 
 backend:
   name: github

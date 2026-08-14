@@ -7,34 +7,11 @@
     <title>Content Manager</title>
   </head>
   <body>
-    <!-- Enable manual initialization so we can inject a fork-aware OAuth backend. -->
-    <script>
-      window.CMS_MANUAL_INIT = true;
-    </script>
-    <!-- Include the script that builds the page and powers the editor. Sveltia CMS
-         (the Svelte successor to Netlify/Decap CMS) reads the same config.yml and
-         speaks the same OAuth postMessage contract, so the backend injection below
-         is unchanged. Version pinned because Sveltia is pre-1.0. -->
+    <!-- Sveltia CMS (the Svelte successor to Netlify/Decap CMS) reads
+         public/admin/config.yml on its own. The kantan panel injects the site's
+         `repo` and the shared auth proxy (`base_url` / `auth_endpoint`) into that
+         file at provisioning, so the editor needs no runtime config. Version
+         pinned because Sveltia is pre-1.0. -->
     <script src="https://unpkg.com/@sveltia/cms@0.178.0/dist/sveltia-cms.js"></script>
-    <script>
-      // Documented manual-init API: CMS_MANUAL_INIT defers auto-init, CMS.init
-      // deep-merges the config object over config.yml (init config wins).
-      //
-      // Classic forks self-host the OAuth proxy (functions/api/*): inject
-      // base_url/auth_endpoint for this site's own origin so any fork or custom
-      // domain works without edits. Sites provisioned by the kantan panel instead
-      // carry base_url in config.yml (pointing at the panel's shared auth proxy) —
-      // when that's present, inject nothing and let the file config win.
-      (async () => {
-        let backend = { base_url: location.origin, auth_endpoint: '/api/auth' };
-        try {
-          const res = await fetch('config.yml');
-          if (res.ok && /^\s*base_url\s*:/m.test(await res.text())) backend = {};
-        } catch (e) {
-          /* fall through to the self-hosted default */
-        }
-        window.CMS.init({ config: { backend } });
-      })();
-    </script>
   </body>
 </html>

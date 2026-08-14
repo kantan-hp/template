@@ -28,39 +28,20 @@
 
 ## 如何开始
 
-1. **复制一份**这个项目 — [**Fork 此存储库**](https://github.com/kantan-hp/template/fork)。
-2. **连接到 Cloudflare Pages** 并发布。Cloudflare 会给你一个免费的网址。
-3. 在 **`your-site.com/admin`** 开始写文章。
+1. **创建你的站点** — 前往 **[kantan-hp.fyi](https://kantan-hp.fyi)**，几个步骤即可创建站点。
+   你只需要（免费的）GitHub 账号和（免费的）Cloudflare 账号。
+2. **开始写作** — 打开 `your-site.com/admin` 撰写文章并发布。编辑器的登录由面板自动设置，
+   无需另外设置 GitHub 登录。
 
-### 步骤 1 — 复制一份
-按 **[Fork](https://github.com/kantan-hp/template/fork)**（或此页上方的 **Fork** 按钮），在 GitHub 账号中建立一份自己的副本。
-如果还没有 GitHub 账号，可到 [github.com](https://github.com) 免费建立。
+### 步骤 1 — 创建你的站点
 
-### 步骤 2 — 发布（仅需一次）
-前往 [Cloudflare](https://dash.cloudflare.com) → **Workers & Pages** → **Create application**。
-在 **Create a Worker** 页面底部有一行小字 **"Looking to deploy Pages? Get started"**，点击它。
-这会带你到会显示框架 preset 与输出文件夹的 Pages 设置。接着：
+前往 **[kantan-hp.fyi](https://kantan-hp.fyi)**，用电子邮箱登录。连接你的 GitHub 账号、
+粘贴 Cloudflare API 令牌，然后取一个名称。面板会生成存储库、部署到 Cloudflare Pages，
+并给你一个已上线的 `your-site.pages.dev` 网址 — 全程约一分钟。
 
-1. **Select a method** — 选择 **GitHub**（如有提示请登录／授权）。
-2. **Select a repository** — 选择你刚刚复制的项目。
-3. **Create and deploy** — 在构建设置中：
-   - **Framework preset:** **Astro**
-   - **Project name:** 任你命名（默认为 repo 名称，这将成为你的 `*.pages.dev` 网址）
-   - **Build command:** `npm run build`
-   - **Build output directory:** `dist`
-   
-   Cloudflare 会检测为 Astro 项目，preset 可能已自动填入。
+### 步骤 2 — 写第一篇文章
 
-> 捷径：也可以从 **Workers & Pages → Create application → Pages 选项卡 → Connect to Git** 直接进入
-> Pages 设置 — 字段相同，只是可能不显示 preset 选择器。
-
-接着点击 **Save and Deploy**。Cloudflare 会自动构建并发布。你会得到一个免费网址，例如 `your-site.pages.dev`（之后可加自己的域名）。
-
-### 步骤 3 — 写第一篇文章
-发布文章前，需要先设置一次 **GitHub 登录**（编辑器保存文章时会用到）。请按照简短的
-**《GitHub 登录设置指南》**（[docs/github-oauth-setup.zh-Hans.md](docs/github-oauth-setup.zh-Hans.md)）操作（仅需一次，约 5 分钟）。
-
-然后打开 `your-site.pages.dev/admin` → 按 **Blog → New Blog** → 输入标题和正文、上传图片，再按 **Publish**。约一分钟后就会发布到你的网站。
+打开 `your-site.pages.dev/admin` → 按 **Blog → New Blog** → 输入标题和正文、上传图片，再按 **Publish**。约一分钟后就会发布到你的网站。
 （一篇欢迎文章已经发布，所以博客不会空空如也。）
 
 就是这样。其他一切都是选配。
@@ -83,8 +64,6 @@
 自定义过的站点会被阻止更新，而不是被破坏），并会为您重新注入编辑器的登录信息。
 确切的用户数据契约请见 **[开发者指南](docs/developer-guide.md#versioning-and-updates-panel-provisioned-sites)**。
 
-通过点击 **Fork** 创建的普通分叉由您自己自由管理更新 — 不会有任何自动化操作。
-
 ---
 
 ## 想改外观？
@@ -92,8 +71,8 @@
 最快捷的改版方式是使用编辑器中的 **设置 → 主题（Settings → Theme）** 选择器。
 网站本身也是一般的 **Astro** 项目：如果想调整颜色、布局或新增页面，编辑 `src/` 中的文件即可，网站会自动重新构建。
 
-详细的设置与定制说明请见 **《开发者指南》(docs/developer-guide.md)**；如果发布时要求设置
-GitHub 登录，请见 **《GitHub 登录设置指南》**（[docs/github-oauth-setup.zh-Hans.md](docs/github-oauth-setup.zh-Hans.md)）。
+详细的设置与定制说明请见 **《开发者指南》(docs/developer-guide.md)**。由 **kantan 面板**创建的站点，
+编辑器登录会自动设置完成。
 
 ---
 
