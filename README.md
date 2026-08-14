@@ -28,38 +28,23 @@ through a friendly web dashboard — no coding, no server, no database to manage
 
 ## How to get started
 
-1. **Make your own copy** — [**Fork this repo**](https://github.com/kantan-hp/template/fork).
-2. **Connect it to Cloudflare Pages** so it goes live. Cloudflare gives you a free website address.
-3. **Start writing** at `your-site.com/admin`.
+1. **Create your site** — go to **[kantan-hp.fyi](https://kantan-hp.fyi)** and create a site
+   in a few clicks. You need a (free) GitHub account and a (free) Cloudflare account.
+2. **Start writing** — open `your-site.com/admin`, write posts, and hit publish. The panel
+   sets up editor login for you, so there is no separate GitHub-login step.
 
-### Step 1 — Make a copy
-Click **[Fork](https://github.com/kantan-hp/template/fork)** (or press the **Fork** button at the top of this page) to create your own copy in your GitHub account. If you don't have a GitHub account yet, it's free to create one at [github.com](https://github.com).
+### Step 1 — Create your site
 
-### Step 2 — Publish it (one time)
-Go to [Cloudflare](https://dash.cloudflare.com) → **Workers & Pages** → **Create application**. On the **Create a Worker** page there's a small link at the bottom: **"Looking to deploy Pages? Get started"** — click it. It leads to the Pages setup that shows the framework preset and output directory. Then:
+Go to **[kantan-hp.fyi](https://kantan-hp.fyi)** and sign in with your email. Connect your
+GitHub account, paste a Cloudflare API token, and pick a name. The panel generates the
+repository, deploys it to Cloudflare Pages, and hands you a live `your-site.pages.dev`
+address — all in about a minute.
 
-1. **Select a method** — choose **GitHub** (sign in / authorize if asked).
-2. **Select a repository** — pick the copy you just forked.
-3. **Create and deploy** — in the build settings:
-   - **Framework preset:** **Astro**
-   - **Project name:** anything you like (defaults to your repo name — this becomes your `*.pages.dev` address)
-   - **Build command:** `npm run build`
-   - **Build output directory:** `dist`
-   
-   Cloudflare detects it's an Astro project, so the preset may already fill these in.
+### Step 2 — Write your first post
 
-> Prefer a shortcut? You can also go straight to the Pages flow via **Workers & Pages → Create application → Pages tab → Connect to Git** — the fields are the same, though the preset picker may not be shown there.
-
-Then click **Save and Deploy**. Cloudflare does the rest — it installs, builds, and publishes automatically. You'll get a free address like `your-site.pages.dev` (you can add your own domain later).
-
-### Step 3 — Write your first post
-Before you can publish, you'll log in to GitHub once (the editor uses it to save your
-posts). Follow the short **[GitHub login guide](docs/github-oauth-setup.md)** — about 5
-minutes, one time.
-
-Then open `your-site.pages.dev/admin`, click **Blog → New Blog**, write your title and
-text, upload a picture, and press **Publish**. It goes live on your site within about a
-minute. (A short welcome post is already published, so the blog is never empty.)
+Open `your-site.pages.dev/admin`, click **Blog → New Blog**, write your title and text,
+upload a picture, and press **Publish**. It goes live within about a minute. (A short
+welcome post is already published, so the blog is never empty.)
 
 That's it. Everything else is optional.
 
@@ -85,9 +70,6 @@ customized site is blocked, not clobbered), and it re-injects the editor's login
 you. See the **[Developer guide](docs/developer-guide.md#versioning-and-updates-panel-provisioned-sites)**
 for the exact user data contract.
 
-Classic forks (made by clicking **Fork**) are yours to update however you like — nothing
-automated happens to them.
-
 ---
 
 ## Want to change how it looks?
@@ -97,9 +79,8 @@ The site itself is also a normal **Astro** project: if you (or someone technical
 tweak colors, layout, or add pages, edit the files in `src/` and the site rebuilds
 automatically.
 
-See **the [Developer guide](docs/developer-guide.md)** for setup and customization details,
-and **the [GitHub login guide](docs/github-oauth-setup.md)** if publishing from the editor
-asks you to set up a GitHub login.
+See **the [Developer guide](docs/developer-guide.md)** for setup and customization details.
+Editor login is set up automatically for sites created with the **kantan panel**.
 
 ---
 

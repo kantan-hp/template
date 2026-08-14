@@ -28,42 +28,21 @@
 
 ## 始め方
 
-1. **このプロジェクトのコピー**を作ります — [**このリポジトリをFork**](https://github.com/kantan-hp/template/fork)。
-2. **Cloudflare Pages に接続**して公開します。無料のウェブアドレスがもらえます。
-3. **`your-site.com/admin`** で記事を書き始めます。
+1. **サイトを作る** — **[kantan-hp.fyi](https://kantan-hp.fyi)** を開き、数クリックでサイトを作成します。
+   必要なのは（無料の）GitHubアカウントと（無料の）Cloudflareアカウントだけです。
+2. **記事を書き始める** — `your-site.com/admin` を開いて記事を書き、公開するだけ。
+   エディタのログインはパネルが設定してくれるので、別途GitHubログインの設定は不要です。
 
-### 手順1 — コピーを作る
-**[Fork](https://github.com/kantan-hp/template/fork)**（またはこのページ上部の **Fork** ボタン）を
-クリックして、GitHubの自分のアカウントにコピーを作成します。GitHubアカウントがまだ無ければ、[github.com](https://github.com)
-で無料で作れます。
+### 手順1 — サイトを作る
 
-### 手順2 — 公開する（一度だけ）
-[Cloudflare](https://dash.cloudflare.com) → **Workers & Pages** → **Create application** を開きます。
-**Create a Worker** ページ下部に小さなリンク **"Looking to deploy Pages? Get started"** があるので
-クリックしてください。フレームワークのプリセットと出力ディレクトリが表示されるPages設定に進みます。次に：
+**[kantan-hp.fyi](https://kantan-hp.fyi)** を開き、メールアドレスでサインインします。GitHubアカウントを
+連携し、Cloudflare APIトークンを貼り付けて、名前を決めるだけ。パネルがリポジトリを生成し、Cloudflare Pages に
+デプロイして、`your-site.pages.dev` のライブアドレスを発行します — 約1分で完了します。
 
-1. **Select a method** — **GitHub** を選択（求められればログイン／許可）。
-2. **Select a repository** — 先ほどForkしたコピーを選択。
-3. **Create and deploy** — ビルド設定に入力：
-   - **Framework preset:** **Astro**
-   - **Project name:** お好みで（デフォルトはリポジトリ名。これが `*.pages.dev` アドレスになります）
-   - **Build command:** `npm run build`
-   - **Build output directory:** `dist`
-   
-   Astroプロジェクトとして自動検出されるため、プリセットが自動入力される場合もあります。
+### 手順2 — 最初の記事を書く
 
-> ショートカット：**Workers & Pages → Create application → Pages タブ → Connect to Git** からも
-> 直接Pages設定に進めます。項目は同じですが、プリセット選択が表示されない場合があります。
-
-その後 **Save and Deploy** をクリック。Cloudflareが自動でビルド・公開してくれます。`your-site.pages.dev` のような無料アドレスが
-もらえます（あとで独自ドメインも設定できます）。
-
-### 手順3 — 最初の記事を書く
-記事を公開する前に、一度だけ **GitHub ログイン** の設定が必要です（エディタが保存に使います）。
-簡単な **[GitHubログイン設定ガイド](docs/github-oauth-setup.ja.md)** に従ってください（一度だけ、約5分）。
-
-その後 `your-site.pages.dev/admin` を開き → **Blog → New Blog** をクリック →
-タイトルと本文を書き、画像をアップロードして **Publish** を押すだけ。約1分でサイトに公開されます。
+`your-site.pages.dev/admin` を開き → **Blog → New Blog** をクリック → タイトルと本文を書き、
+画像をアップロードして **Publish** を押すだけ。約1分でサイトに公開されます。
 （はじめから「Welcome」記事が公開済みなので、ブログが空になることはありません。）
 
 以上です。それ以外はすべてオプションです。
@@ -88,8 +67,6 @@
 壊されるのではなく更新がブロックされます）。エディタのログイン情報も自動で再設定されます。
 正確なユーザーデータ契約は **[開発者ガイド](docs/developer-guide.md#versioning-and-updates-panel-provisioned-sites)** を参照してください。
 
-**Fork** ボタンから作成した通常のフォークは、ご自身で自由に更新できます — 自動的な更新は行われません。
-
 ---
 
 ## 見た目を変えたいですか？
@@ -98,9 +75,8 @@
 サイト本体は通常の **Astro** プロジェクトでもあるので、色・レイアウト・ページ追加などを変更したい場合は、
 `src/` 内のファイルを編集すれば自動で再ビルドされます。
 
-セットアップやカスタマイズの詳細は **[開発者ガイド](docs/developer-guide.md)** を、
-エディタからの公開時にGitHubログインの設定を求められた場合は
-**[GitHubログイン設定ガイド](docs/github-oauth-setup.ja.md)** を参照してください。
+セットアップやカスタマイズの詳細は **[開発者ガイド](docs/developer-guide.md)** を参照してください。
+エディタのログインは **kantan パネル**で作成したサイトでは自動的に設定されます。
 
 ---
 
