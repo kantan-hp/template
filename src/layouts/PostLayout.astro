@@ -34,7 +34,7 @@ const heroSrc = post.data.heroImage ? safeUrl(post.data.heroImage) : null;
 const hasHero =
   heroSrc != null &&
   heroSrc !== '/' &&
-  !/^(?:mailto:|tel:|#)/.test(heroSrc);
+  !/^(?:mailto:|tel:|#)/i.test(heroSrc);
 
 // hreflang alternates are only the locales that actually have this post; the
 // site-level pages exist in every locale.
