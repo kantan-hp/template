@@ -5,7 +5,10 @@
 // every page. This helper passes through only safe schemes and site-relative
 // paths; everything else collapses to `/`.
 
-const SAFE_URL = /^(?:https?:|mailto:|tel:|\/(?!\/)|#)/;
+// Browsers normalize backslashes to slashes in special-scheme URLs, so a
+// CMS value like `/\evil.com` would otherwise pass and render as protocol-
+// relative `//evil.com`. Reject both `/` and `\` after the leading slash.
+const SAFE_URL = /^(?:https?:|mailto:|tel:|\/(?![\\/])|#)/;
 
 /** Return `url` only if its scheme is allowlisted, else `/`. */
 export function safeUrl(url: string | undefined | null): string {
