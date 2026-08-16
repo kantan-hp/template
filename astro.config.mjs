@@ -39,9 +39,25 @@ function resolveDefaultLocale() {
 }
 
 // https://astro.build/config
+const resolvedSite = resolveSite();
+const isPlaceholderSite = resolvedSite === 'https://your-site.example.com';
+
+// Sitemap + RSS only make sense once a real site URL is configured; until then
+// (placeholder) emitting sitemap-*.xml / rss.xml would publish broken links to
+// a nonexistent domain. Mirrors the canonical/hreflang suppression in
+// BaseLayout.astro and the RSS route gating.
 export default defineConfig({
-  site: resolveSite(),
-  integrations: [sitemap()],
+  site: resolvedSite,
+  integrations: isPlaceholderSite
+    ? []
+    : [
+        // Sitemap only (no i18n xhtml:link alternates): @astrojs/sitemap's
+        // i18n option doesn't cleanly support prefixDefaultLocale:false — the
+        // default locale would need an empty-string prefix which fails its
+        // validator. BaseLayout.astro already emits correct <link rel=alternate
+        // hreflang> tags in HTML, so the sitemap alternates are duplicative.
+        sitemap(),
+      ],
   output: 'static',
   // i18n: the four README locales. The site's default language (site.lang)
   // serves unprefixed (/); the other three live at their exact-code prefix.

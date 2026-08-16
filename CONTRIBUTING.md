@@ -25,7 +25,7 @@ and no reset discussion threads are unresolved.
 - Keep new dependencies minimal — this starter prizes lightness.
 - Add posts under `src/content/blog/` as plain Markdown with frontmatter.
 - New editor fields go in both `public/admin/config.yml` and
-  `src/content/config.ts` (keep them in sync).
+  `src/content.config.ts` (keep them in sync).
 - No secrets or personal data: this repository is **public**.
 
 ## License

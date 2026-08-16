@@ -10,6 +10,7 @@ import type { Locale } from '../i18n/ui';
 import { getLocaleFromPath, getLocalizedUrl } from '../i18n/utils';
 import { localesForSlug, slugOf } from '../lib/blog';
 import { jsonLd } from '../lib/seo';
+import { safeUrl } from '../lib/url';
 
 interface Props {
   post: CollectionEntry<'blog'>;
@@ -80,7 +81,15 @@ const blogPostingJsonLd = hasRealSite
         </div>
       </header>
       {post.data.heroImage && (
-        <img class="post-hero" src={post.data.heroImage} alt={post.data.title} />
+        <img
+          class="post-hero"
+          src={safeUrl(post.data.heroImage)}
+          alt={post.data.title}
+          width="1200"
+          height="630"
+          loading="eager"
+          decoding="async"
+        />
       )}
       <div class="prose">
         <Content />
