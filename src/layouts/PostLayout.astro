@@ -27,6 +27,15 @@ const formattedDate = post.data.pubDate.toLocaleDateString(locale, {
   day: 'numeric',
 });
 
+// Hero URL after the scheme allowlist. Only render an <img> when the survived
+// value is a real URL: safeUrl collapses unsafe values to '/' (a broken image
+// if rendered as src), and mailto/tel/# are nonsense in an img src.
+const heroSrc = post.data.heroImage ? safeUrl(post.data.heroImage) : null;
+const hasHero =
+  heroSrc != null &&
+  heroSrc !== '/' &&
+  !/^(?:mailto:|tel:|#)/i.test(heroSrc);
+
 // hreflang alternates are only the locales that actually have this post; the
 // site-level pages exist in every locale.
 const hreflangLocales = await localesForSlug(slugOf(post));
@@ -54,7 +63,7 @@ const blogPostingJsonLd = hasRealSite
   title={post.data.title}
   description={post.data.description}
   ogType="article"
-  ogImage={post.data.heroImage}
+  ogImage={post.data.heroImage ? safeUrl(post.data.heroImage) : undefined}
   hreflangLocales={hreflangLocales}
 >
   <Fragment slot="head">
@@ -80,10 +89,10 @@ const blogPostingJsonLd = hasRealSite
           {post.data.tags.map((tag) => <Tag text={tag} />)}
         </div>
       </header>
-      {post.data.heroImage && (
+      {hasHero && (
         <img
           class="post-hero"
-          src={safeUrl(post.data.heroImage)}
+          src={heroSrc}
           alt={post.data.title}
           width="1200"
           height="630"

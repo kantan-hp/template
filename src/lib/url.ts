@@ -8,8 +8,9 @@
 // Browsers normalize backslashes to slashes and strip ASCII tab/newline/CR
 // before URL resolution, so a CMS value like `/\evil.com` or `/\tevil.com`
 // would otherwise pass and render as protocol-relative `//evil.com`. Reject
-// `/`, `\`, `\t`, `\n`, `\r` after the leading slash.
-const SAFE_URL = /^(?:https?:|mailto:|tel:|\/(?![\\/\t\n\r])|#)/;
+// `/`, `\`, `\t`, `\n`, `\r` after the leading slash. The `i` flag keeps
+// `HTTPS://`, `Mailto:`, etc. valid instead of collapsing them to `/`.
+const SAFE_URL = /^(?:https?:|mailto:|tel:|\/(?![\\/\t\n\r])|#)/i;
 
 /** Return `url` only if its scheme is allowlisted, else `/`. */
 export function safeUrl(url: string | undefined | null): string {
