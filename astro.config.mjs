@@ -40,7 +40,10 @@ function resolveDefaultLocale() {
 
 // https://astro.build/config
 const resolvedSite = resolveSite();
-const isPlaceholderSite = resolvedSite === 'https://your-site.example.com';
+// .includes() (not ===) so it stays in sync with the same predicate used in
+// rss.ts / BaseLayout.astro / PostLayout.astro / robots.txt.ts — a trailing
+// slash or scheme nuance shouldn't split-brain the placeholder detection.
+const isPlaceholderSite = resolvedSite.includes('your-site.example.com');
 
 // Sitemap + RSS only make sense once a real site URL is configured; until then
 // (placeholder) emitting sitemap-*.xml / rss.xml would publish broken links to
