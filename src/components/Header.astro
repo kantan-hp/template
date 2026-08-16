@@ -6,6 +6,7 @@ import { site, nav } from '../config';
 import { ui } from '../i18n/ui';
 import type { Locale } from '../i18n/ui';
 import { getLocaleFromPath, getLocalizedUrl } from '../i18n/utils';
+import { safeUrl } from '../lib/url';
 
 const locale: Locale = getLocaleFromPath(Astro.url.pathname);
 const t = ui[locale];
@@ -19,8 +20,9 @@ const isActive = (path: string) => {
 };
 
 const navHref = (url: string) => {
-  if (url.startsWith('/') && !url.startsWith('//')) return getLocalizedUrl(url, locale);
-  return url;
+  const safe = safeUrl(url);
+  if (safe.startsWith('/') && !safe.startsWith('//')) return getLocalizedUrl(safe, locale);
+  return safe;
 };
 ---
 
