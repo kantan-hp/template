@@ -6,9 +6,9 @@
 // falling back to the browser's language. This seeds that preference to the
 // site's language WITHOUT clobbering a deliberate choice:
 // - if the owner never set an editor language, seed it once;
-// - if the owner picked a language in Settings, keep it;
-// - if we seeded an older site language and the owner kept it, follow the
-//   site if its language changed.
+// - if the owner keeps our seed and the site's language changes, follow it;
+// - once the owner picks a language that diverges from our seed (a deliberate
+//   Settings choice), stop auto-following the site language forever.
 window.kantanSeedLocale = '__KANTAN_EDITOR_LANG__';
 (function () {
   try {
@@ -22,11 +22,16 @@ window.kantanSeedLocale = '__KANTAN_EDITOR_LANG__';
       prefs = {};
     }
     if (prefs.locale === undefined) {
+      // First run: the owner has no editor-language preference yet.
       prefs.locale = locale;
-    } else if (prefs.kantanSeed !== undefined && prefs.kantanSeed !== locale && prefs.locale === prefs.kantanSeed) {
-      // We seeded an older site language and the owner didn't change it — the
-      // site switched language, so the editor follows.
+    } else if (prefs.kantanSeed !== undefined && prefs.locale === prefs.kantanSeed) {
+      // The owner still has what we seeded — follow the site's language if it
+      // changed (e.g. the owner switched the site's language in Settings).
       prefs.locale = locale;
+    } else if (prefs.kantanSeed !== undefined && prefs.locale !== prefs.kantanSeed && !prefs.kantanSeedModified) {
+      // The owner picked a language that diverges from our seed — a deliberate
+      // Settings choice. Never auto-follow the site language again.
+      prefs.kantanSeedModified = true;
     }
     prefs.kantanSeed = locale;
     localStorage.setItem(KEY, JSON.stringify(prefs));
