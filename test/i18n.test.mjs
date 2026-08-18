@@ -24,8 +24,8 @@ test('single-language: site.lang=ja serves Japanese at /blog/ with no locale rou
     assert.match(blog, /<html lang="ja"/, '/blog/ must render in the site language');
     assert.ok(blog.includes('ブログ'), 'blog UI strings must be localized (not English)');
     assert.ok(
-      !existsSync(join(ROOT, 'dist/ja')),
-      'no /ja/ routes — kantan sites are single-language',
+      !existsSync(join(ROOT, 'dist/en')),
+      'no /en/ routes — kantan sites are single-language (the old i18n build produced dist/en)',
     );
     assert.ok(
       existsSync(join(ROOT, 'dist/blog/welcome/index.html')),
