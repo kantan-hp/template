@@ -1,13 +1,11 @@
 ---
-// Individual blog post pages at /blog/[slug]/, in the site's default language.
+// Individual blog post pages at /blog/[slug]/.
 import type { GetStaticPaths } from 'astro';
 import type { CollectionEntry } from 'astro:content';
 import PostLayout from '../../layouts/PostLayout.astro';
-import { defaultLocale } from '../../i18n/ui';
-import { getPostsFor, postPaths } from '../../lib/blog';
+import { getAllPosts, postPaths } from '../../lib/blog';
 
-export const getStaticPaths: GetStaticPaths = async () =>
-  postPaths(await getPostsFor(defaultLocale));
+export const getStaticPaths: GetStaticPaths = async () => postPaths(await getAllPosts());
 
 const { post } = Astro.props as { post: CollectionEntry<'blog'> };
 ---

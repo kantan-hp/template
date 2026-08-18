@@ -1,11 +1,8 @@
 ---
-// English homepage at the root (/). The other locales are served by
-// src/pages/[locale]/index.astro.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Home from '../components/Home.astro';
-import { defaultLocale } from '../i18n/ui';
 ---
 
 <BaseLayout>
-  <Home locale={defaultLocale} />
+  <Home />
 </BaseLayout>

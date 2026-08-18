@@ -1,57 +1,14 @@
 ---
-// Footer: copyright line, the language switcher (all four locales, native
-// names), and social links (from the Settings tab). Right-aligned per the
-// i18n decision — the header stays uncluttered.
+// Footer: copyright line and social links (from the Settings tab).
+// Right-aligned per the i18n decision — the header stays uncluttered.
 import { site } from '../config';
 import Socials from './Socials.astro';
-import { locales, nativeNames, ui } from '../i18n/ui';
-import type { Locale } from '../i18n/ui';
-import { getLanguageFromLocale, getLocaleFromPath, getLocalizedUrl } from '../i18n/utils';
-
-interface Props {
-  // Base path the language links are computed from; defaults to the current
-  // page so switching keeps you on the same page in each locale.
-  langSwitchBase?: string;
-  // Locales that actually have the current page (from PostLayout's
-  // localesForSlug). Site-level pages pass undefined → every locale is valid.
-  // When set, locales without the current page link to their home instead of a
-  // 404 path.
-  hreflangLocales?: Locale[];
-}
-
-const { langSwitchBase, hreflangLocales } = Astro.props;
-const locale: Locale = getLocaleFromPath(Astro.url.pathname);
-const t = ui[locale];
-const switchBase = langSwitchBase ?? Astro.url.pathname;
-
-// For each locale: if the current page exists in that locale, link to the
-// localized path; otherwise (a post not translated into that locale) link to
-// that locale's home so the switcher never points at a 404.
-const switchHref = (lang: Locale) => {
-  if (hreflangLocales && !hreflangLocales.includes(lang)) {
-    return getLocalizedUrl('/', lang);
-  }
-  return getLocalizedUrl(switchBase, lang);
-};
 ---
 
 <footer class="site-footer">
   <div class="container inner">
     <span>© {new Date().getFullYear()} {site.title}</span>
     <div class="footer-right">
-      <nav class="lang-switch" aria-label={t.footer.language}>
-          {
-            locales.map((lang) => (
-              <a
-                href={switchHref(lang)}
-                lang={getLanguageFromLocale(lang)}
-                aria-current={lang === locale ? 'true' : undefined}
-              >
-                {nativeNames[lang]}
-              </a>
-            ))
-          }
-      </nav>
       <Socials />
     </div>
   </div>

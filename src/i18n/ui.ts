@@ -10,18 +10,9 @@ export function isLocale(value: string | undefined): value is Locale {
 }
 
 // The site's default locale, read from src/config.json `site.lang` (fallback
-// en). It is baked into Astro's `defaultLocale` at build time (model a), so
-// this site's default language serves at `/` and the others are prefixed.
+// en). kantan sites are single-language: the chosen locale drives the UI
+// strings site-wide (no prefixed routes, no language switcher).
 export const defaultLocale: Locale = isLocale(site.lang) ? site.lang : 'en';
-
-// Native names shown in the footer language switcher (identical in every
-// locale by design).
-export const nativeNames: Record<Locale, string> = {
-  en: 'English',
-  ja: '日本語',
-  'zh-Hant': '繁體中文',
-  'zh-Hans': '简体中文',
-};
 
 export interface UIStrings {
   skipToContent: string;

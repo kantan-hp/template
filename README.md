@@ -19,8 +19,8 @@ through a friendly web dashboard — no coding, no server, no database to manage
 - A **working blog** for free (hosted on Cloudflare Pages)
 - A **web editor** at `your-site.com/admin` — write posts, add pictures, hit publish
 - A **Settings** tab to change the site title, tagline, and theme — no code
-- A **language switcher** — the site ships in English, 日本語, 繁體中文, and 简体中文; readers
-  switch language in the footer, and editors get per-language tabs for posts and pages
+- Your site serves in **your chosen language** — English, 日本語, 繁體中文, or 简体中文 — and
+  the editor follows the same language. No language tabs to manage.
 - A welcome post already published, so your site is alive from the first deploy
 - Editors don't need to touch code or git. Just a browser.
 

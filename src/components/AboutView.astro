@@ -1,19 +1,16 @@
 ---
-// About page body, shared by the root and the [locale]/ pages. Renders the
-// about entry for the locale (see getAboutFor: <locale>/about.md, or the legacy
-// unprefixed about.md for the default locale).
+// About page body. Renders the about entry (see getAbout).
 import { render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import { ui } from '../i18n/ui';
-import type { Locale } from '../i18n/ui';
+import { defaultLocale } from '../i18n/ui';
 
 interface Props {
-  locale: Locale;
   about: CollectionEntry<'pages'> | undefined;
 }
 
-const { locale, about } = Astro.props;
-const t = ui[locale];
+const { about } = Astro.props;
+const t = ui[defaultLocale];
 const renderProps = about ? await render(about) : null;
 const title = about?.data.title ?? t.nav.About;
 ---

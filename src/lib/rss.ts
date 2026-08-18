@@ -1,10 +1,8 @@
 import rss from '@astrojs/rss';
 import { site } from '../config';
-import { defaultLocale } from '../i18n/ui';
-import type { Locale } from '../i18n/ui';
-import { getPostsFor, slugOf } from './blog';
+import { getAllPosts, slugOf } from './blog';
 
-export async function buildRss(locale: Locale) {
+export async function buildRss() {
   // Mirror BaseLayout.astro's placeholder suppression: until a real site URL
   // is configured (PUBLIC_SITE_URL or src/config.json `site.url`), emitting the
   // feed would publish entry links pointing at the placeholder domain. Return a
@@ -20,20 +18,16 @@ export async function buildRss(locale: Locale) {
     });
   }
 
-  // The site's default locale (site.lang) serves unprefixed; everything else
-  // gets its exact-code prefix. Compare against the *configured* default, not
-  // a hardcoded 'en' — a ja-default site feeds /rss.xml as /ja/.
-  const prefix = locale === defaultLocale ? '' : `/${locale}`;
-  const posts = await getPostsFor(locale);
+  const posts = await getAllPosts();
   return rss({
     title: site.title,
     description: site.description,
-    site: new URL(`${prefix}/`, siteEnv),
+    site: new URL('/', siteEnv),
     items: posts.map((post) => ({
       title: post.data.title,
       description: post.data.description,
       pubDate: post.data.pubDate,
-      link: `${prefix}/blog/${slugOf(post)}/`,
+      link: `/blog/${slugOf(post)}/`,
     })),
   });
 }
