@@ -5,14 +5,8 @@
 import '../styles/global.css';
 import { site, theme, themeColor } from '../config';
 import { ui } from '../i18n/ui';
-import type { Locale } from '../i18n/ui';
-import { defaultLocale, locales } from '../i18n/ui';
-import {
-  getLanguageFromLocale,
-  getLocaleFromUrl,
-  getLocalizedUrl,
-  getPathWithoutLocale,
-} from '../i18n/utils';
+import { defaultLocale } from '../i18n/ui';
+import { getLanguageFromLocale } from '../i18n/utils';
 import { jsonLd } from '../lib/seo';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -21,61 +15,26 @@ import Main from '../components/Main.astro';
 interface Props {
   title?: string;
   description?: string;
-  // When set, the footer language switcher links from this path instead of the
-  // current one. The 404 page uses '/' so the switcher always lands on a real
-  // locale page.
-  langSwitchBase?: string;
   // Open Graph object type; posts pass 'article'.
   ogType?: string;
   // Site-relative (or absolute) share image. Posts pass their heroImage; the
   // site-wide default share image ships with the logo plan.
   ogImage?: string;
-  // Locales that have a page at this path (hreflang alternates). Site-level
-  // pages exist in every locale; posts pass only their translated locales.
-  hreflangLocales?: Locale[];
 }
 
-const {
-  title,
-  description,
-  langSwitchBase,
-  ogType = 'website',
-  ogImage,
-  hreflangLocales,
-} = Astro.props;
-const locale: Locale = getLocaleFromUrl(Astro.url);
-const t = ui[locale];
+const { title, description, ogType = 'website', ogImage } = Astro.props;
+const t = ui[defaultLocale];
 const pageTitle = title ? `${title} — ${site.title}` : site.title;
 const pageDescription = description ?? site.description;
-const rssUrl = getLocalizedUrl('/rss.xml', locale);
 
-// Canonical / og:url / hreflang / JSON-LD are only meaningful once a real site
-// URL is configured (PUBLIC_SITE_URL or site.url). Until then `site` falls back
-// to the placeholder, which would point crawlers at a nonexistent domain — so
-// omit these tags instead of emitting the placeholder.
+// Canonical / og:url / JSON-LD are only meaningful once a real site URL is
+// configured (PUBLIC_SITE_URL or site.url). Until then `site` falls back to the
+// placeholder, which would point crawlers at a nonexistent domain — so omit
+// these tags instead of emitting the placeholder.
 const siteUrl = Astro.site;
 const resolvedSite = import.meta.env.SITE ?? '';
 const hasRealSite = Boolean(siteUrl) && !resolvedSite.includes('your-site.example.com');
 const canonicalURL = hasRealSite ? new URL(Astro.url.pathname, siteUrl!).href : undefined;
-
-// hreflang alternates; x-default points at the default locale's URL when that
-// locale actually has the page, otherwise at the page's own locale (the only
-// locale guaranteed to have it).
-const pagePath = getPathWithoutLocale(Astro.url.pathname);
-const alternates: Locale[] = hreflangLocales ?? [...locales];
-const xDefaultLocale: Locale = alternates.includes(defaultLocale) ? defaultLocale : locale;
-const hreflang = hasRealSite
-  ? [
-      ...alternates.map((l) => ({
-        lang: l,
-        href: new URL(getLocalizedUrl(pagePath, l), siteUrl!).href,
-      })),
-      {
-        lang: 'x-default',
-        href: new URL(getLocalizedUrl(pagePath, xDefaultLocale), siteUrl!).href,
-      },
-    ]
-  : [];
 
 // Share image (og:image / twitter:image), absolutized once a real site resolves.
 const ogImageUrl =
@@ -83,9 +42,9 @@ const ogImageUrl =
     ? (/^https?:\/\//.test(ogImage) ? ogImage : new URL(ogImage, siteUrl!).href)
     : undefined;
 
-// Homepage (root or a locale root) carries WebSite structured data; posts add
-// BlogPosting from PostLayout via the head slot.
-const isHome = getPathWithoutLocale(Astro.url.pathname) === '/';
+// Homepage carries WebSite structured data; posts add BlogPosting from
+// PostLayout via the head slot.
+const isHome = Astro.url.pathname === '/';
 const websiteJsonLd =
   hasRealSite && isHome
     ? jsonLd({
@@ -99,7 +58,7 @@ const websiteJsonLd =
 ---
 
 <!doctype html>
-<html lang={getLanguageFromLocale(locale)} data-preset={theme.preset}>
+<html lang={getLanguageFromLocale(defaultLocale)} data-preset={theme.preset}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -112,7 +71,7 @@ const websiteJsonLd =
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     {hasRealSite && (
-      <link rel="alternate" type="application/rss+xml" title={site.title} href={rssUrl} />
+      <link rel="alternate" type="application/rss+xml" title={site.title} href="/rss.xml" />
     )}
     <meta name="theme-color" content={themeColor} />
 
@@ -122,10 +81,7 @@ const websiteJsonLd =
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDescription} />
     {canonicalURL && <meta property="og:url" content={canonicalURL} />}
-    <meta property="og:locale" content={locale} />
-    {alternates
-      .filter((l) => l !== locale)
-      .map((l) => <meta property="og:locale:alternate" content={l} />)}
+    <meta property="og:locale" content={defaultLocale} />
     {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
 
     <!-- Twitter -->
@@ -133,9 +89,6 @@ const websiteJsonLd =
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={pageDescription} />
     {ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
-
-    <!-- hreflang alternates + x-default (only when a real site URL resolves) -->
-    {hreflang.map((h) => <link rel="alternate" hreflang={h.lang} href={h.href} />)}
 
     <!-- WebSite structured data on the homepage -->
     {websiteJsonLd && <script is:inline type="application/ld+json" set:html={websiteJsonLd} />}
@@ -165,7 +118,7 @@ const websiteJsonLd =
     <Main>
       <slot />
     </Main>
-    <Footer langSwitchBase={langSwitchBase} hreflangLocales={hreflangLocales} />
+    <Footer />
     <script>
       import '../scripts/theme';
     </script>

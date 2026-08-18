@@ -6,9 +6,7 @@ import BaseLayout from './BaseLayout.astro';
 import Tag from '../components/Tag.astro';
 import { site } from '../config';
 import { ui } from '../i18n/ui';
-import type { Locale } from '../i18n/ui';
-import { getLocaleFromPath, getLocalizedUrl } from '../i18n/utils';
-import { localesForSlug, slugOf } from '../lib/blog';
+import { defaultLocale } from '../i18n/ui';
 import { jsonLd } from '../lib/seo';
 import { safeUrl } from '../lib/url';
 
@@ -17,11 +15,10 @@ interface Props {
 }
 
 const { post } = Astro.props;
-const locale: Locale = getLocaleFromPath(Astro.url.pathname);
-const t = ui[locale];
+const t = ui[defaultLocale];
 const { Content } = await render(post);
-const blogUrl = getLocalizedUrl('/blog/', locale);
-const formattedDate = post.data.pubDate.toLocaleDateString(locale, {
+const blogUrl = '/blog/';
+const formattedDate = post.data.pubDate.toLocaleDateString(defaultLocale, {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
@@ -35,10 +32,6 @@ const hasHero =
   heroSrc != null &&
   heroSrc !== '/' &&
   !/^(?:mailto:|tel:|#)/i.test(heroSrc);
-
-// hreflang alternates are only the locales that actually have this post; the
-// site-level pages exist in every locale.
-const hreflangLocales = await localesForSlug(slugOf(post));
 
 // BlogPosting structured data, only once a real site URL resolves.
 const siteUrl = Astro.site;
@@ -64,7 +57,6 @@ const blogPostingJsonLd = hasRealSite
   description={post.data.description}
   ogType="article"
   ogImage={post.data.heroImage ? safeUrl(post.data.heroImage) : undefined}
-  hreflangLocales={hreflangLocales}
 >
   <Fragment slot="head">
     {post.data.pubDate && (

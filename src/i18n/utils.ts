@@ -1,29 +1,16 @@
-// Locale helpers for the i18n routes. English is the default locale and is
-// served unprefixed (/) — see the `i18n` block in astro.config.mjs.
-//
-// Locale-prefixed paths keep the exact locale code (e.g. /zh-Hant/), matching
-// the routes Astro builds from the [locale] folders. `getRelativeLocaleUrl`
-// lowercases the segment, so URLs are built by hand here.
-import { defaultLocale, locales } from './ui';
+// Locale helpers for the single-language template. kantan sites serve entirely
+// in their chosen language (site.lang) at `/` — there are no locale-prefixed
+// routes — so every path resolves to the default locale and URLs are plain.
+import { defaultLocale } from './ui';
 import type { Locale } from './ui';
 
-// The locale for a pathname, reading the leading prefix (/ja/, /zh-Hant/...).
-// Paths without a recognized prefix belong to the default (English) locale.
-// Matching is case-insensitive (the real routes keep case; this tolerates
-// lowercase requests on the 404 page).
-export function getLocaleFromPath(pathname: string): Locale {
-  const lower = pathname.toLowerCase();
-  for (const locale of locales) {
-    if (locale === defaultLocale) continue;
-    if (lower === `/${locale.toLowerCase()}` || lower.startsWith(`/${locale.toLowerCase()}/`)) {
-      return locale;
-    }
-  }
+// The locale for any pathname: always the site's single language.
+export function getLocaleFromPath(_pathname: string): Locale {
   return defaultLocale;
 }
 
-export function getLocaleFromUrl(url: URL): Locale {
-  return getLocaleFromPath(url.pathname);
+export function getLocaleFromUrl(_url: URL): Locale {
+  return defaultLocale;
 }
 
 // <html lang> tag (BCP-47 — the locale codes already are).
@@ -31,17 +18,12 @@ export function getLanguageFromLocale(locale: Locale): string {
   return locale;
 }
 
-// Strip the leading locale prefix (English paths have none).
+// Paths carry no locale prefix; the input is already the canonical path.
 export function getPathWithoutLocale(pathname: string): string {
-  const locale = getLocaleFromPath(pathname);
-  if (locale === defaultLocale) return pathname;
-  return pathname.replace(new RegExp(`^/${locale}`, 'i'), '') || '/';
+  return pathname;
 }
 
-// The same page in another locale, e.g. /ja/blog/foo <-> /blog/foo.
-// English stays at the root; other locales get their exact-code prefix.
-export function getLocalizedUrl(pathname: string, locale: Locale): string {
-  const base = getPathWithoutLocale(pathname);
-  if (locale === defaultLocale) return base;
-  return base === '/' ? `/${locale}/` : `/${locale}${base}`;
+// The site is single-language, so the localized URL of a path is the path.
+export function getLocalizedUrl(pathname: string, _locale: Locale): string {
+  return pathname;
 }

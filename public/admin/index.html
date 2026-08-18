@@ -12,6 +12,9 @@
          `repo` and the shared auth proxy (`base_url` / `auth_endpoint`) into that
          file at provisioning, so the editor needs no runtime config. Version
          pinned because Sveltia is pre-1.0. -->
+    <!-- Seeds the editor UI language from the site's chosen language (the
+         panel rewrites the value inside lang.js at provisioning). -->
+    <script src="/admin/lang.js?v=2"></script>
     <script
       src="https://unpkg.com/@sveltia/cms@0.178.0/dist/sveltia-cms.js"
       integrity="sha384-JaupnMgbYkiRRASh2WV1+EcLmDDy/gkT2nuBq4R1RpKgSw7coIAY+HNHVUsLTYVw"

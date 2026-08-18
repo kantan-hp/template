@@ -12,24 +12,24 @@ function build() {
   execSync('npm run build', { cwd: ROOT, stdio: 'pipe' });
 }
 
-// Model-a regression: the site's default language (site.lang) must serve
-// unprefixed at /, with its UI localized — the root blog layer once hardcoded
-// 'en', which silently broke every non-English site.
-test('model a: site.lang=ja serves Japanese at /blog/ with no /ja/ routes', () => {
+// Single-language regression: the site's chosen language (site.lang) drives the
+// whole site (no prefixed locale routes, no i18n content folders) — a
+// non-English site must render its UI in that language at the flat paths.
+test('single-language: site.lang=ja serves Japanese at /blog/ with no locale routes', () => {
   const orig = readFileSync(CONFIG, 'utf8');
   writeFileSync(CONFIG, orig.replace('"lang": "en"', '"lang": "ja"'));
   try {
     build();
     const blog = readFileSync(join(ROOT, 'dist/blog/index.html'), 'utf8');
-    assert.match(blog, /<html lang="ja"/, '/blog/ must render in the default locale');
+    assert.match(blog, /<html lang="ja"/, '/blog/ must render in the site language');
     assert.ok(blog.includes('ブログ'), 'blog UI strings must be localized (not English)');
     assert.ok(
-      !existsSync(join(ROOT, 'dist/ja')),
-      'ja is the default locale — it must serve at the root, never at /ja/',
+      !existsSync(join(ROOT, 'dist/en')),
+      'no /en/ routes — kantan sites are single-language (the old i18n build produced dist/en)',
     );
     assert.ok(
-      existsSync(join(ROOT, 'dist/en/blog/welcome/index.html')),
-      'the en seed post should live under /en/ on a ja-default site',
+      existsSync(join(ROOT, 'dist/blog/welcome/index.html')),
+      'the seed post serves flat under /blog/welcome/',
     );
   } finally {
     writeFileSync(CONFIG, orig);

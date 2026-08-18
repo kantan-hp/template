@@ -27,9 +27,8 @@ export interface SiteSettings {
     description?: string;
     author?: string;
     url?: string;
-    // The site's default language (BCP-47). Drives the Astro `defaultLocale`
-    // at build time (model a) — the chosen locale serves at `/`. The kantan
-    // provisioner sets this when a site is created; fallback `en`.
+    // The site's single language (BCP-47). Drives the site-wide UI strings.
+    // The kantan provisioner sets this when a site is created; fallback `en`.
     lang?: string;
   };
   theme?: {
