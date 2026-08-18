@@ -24,9 +24,10 @@ window.kantanSeedLocale = '__KANTAN_EDITOR_LANG__';
     if (prefs.locale === undefined) {
       // First run: the owner has no editor-language preference yet.
       prefs.locale = locale;
-    } else if (prefs.kantanSeed !== undefined && prefs.locale === prefs.kantanSeed) {
-      // The owner still has what we seeded — follow the site's language if it
-      // changed (e.g. the owner switched the site's language in Settings).
+    } else if (prefs.kantanSeed !== undefined && prefs.locale === prefs.kantanSeed && !prefs.kantanSeedModified) {
+      // The owner still has what we seeded (and never diverged) — follow the
+      // site's language if it changed (e.g. the owner switched the site's
+      // language in Settings).
       prefs.locale = locale;
     } else if (prefs.kantanSeed !== undefined && prefs.locale !== prefs.kantanSeed && !prefs.kantanSeedModified) {
       // The owner picked a language that diverges from our seed — a deliberate
