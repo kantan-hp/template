@@ -20,8 +20,6 @@
   Content-Security-Policy: default-src 'self'; script-src 'self' https://unpkg.com; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline'; font-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://api.github.com; frame-ancestors 'none'
 
 /admin/lang.js
-  # lang.js is re-read on every load (the provisioner/owner can change the
-  # editor language any time) — don't let the 4h static-asset default cache it.
   Cache-Control: public, max-age=0, must-revalidate
 
 /_astro/*
