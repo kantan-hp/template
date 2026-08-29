@@ -29,9 +29,10 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CF_PAGES_PROJECT: ${{ secrets.CF_PAGES_PROJECT }}
-      # Optional: set the site's canonical URL (used by RSS/sitemap). The kantan
-      # panel can set this as a repository variable (PUBLIC_SITE_URL) when it
-      # provisions a site; astro.config.mjs prefers it over config.json.
+      # Optional: the site canonical URL (used by RSS/sitemap) for sites whose
+      # src/config.json does not yet carry site.url — the panel seeds this repo
+      # variable at provisioning and rewrites it when a custom domain attaches.
+      # Precedence: src/config.json site.url > this variable (astro.config.mjs).
       PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL }}
     steps:
       - name: Check for panel-provisioned credentials

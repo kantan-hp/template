@@ -2,10 +2,20 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: interest-cohort=()
+  Strict-Transport-Security: max-age=31536000
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'
+
+# Site-wide headers: basic hardening plus a conservative CSP. 'unsafe-inline'
+# for script/style stays because the FOUC theme-resolver is an inline script
+# and Astro inlines small styles; img-src admits https: because CMS-authored
+# content legitimately embeds external images. HSTS is set WITHOUT
+# includeSubDomains/preload (a site may host unrelated subdomains; preload is
+# a commitment the template can't make on the user's behalf). Pages enforces
+# https in front of the origin.
 
 /admin
   X-Frame-Options: DENY
-  Content-Security-Policy: default-src 'self'; script-src 'self' https://unpkg.com; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline'; font-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://api.github.com; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://unpkg.com; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline'; font-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
 
 # Pages canonicalizes /admin to the trailing-slash /admin/, and an exact
 # /admin rule matches only the 308 redirect. The splat below is what actually
@@ -14,10 +24,12 @@
 # unsaved-upload thumbnails via URL.createObjectURL(). font-src admits
 # cdn.jsdelivr.net because Sveltia injects @font-face rules (Material Symbols
 # Outlined icon font + Noto Mono) pointing there — without it the icon glyphs
-# fail to render and the editor shows only bare text labels.
+# fail to render and the editor shows only bare text labels. object-src 'none'
+# + base-uri/form-action lock the editor down as a document (plugin/embed and
+# injection hardening — /admin renders untrusted repo content).
 /admin/*
   X-Frame-Options: DENY
-  Content-Security-Policy: default-src 'self'; script-src 'self' https://unpkg.com; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline'; font-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://api.github.com; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://unpkg.com; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline'; font-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
   # lang.js is re-read on every load (the provisioner/owner can change the
   # editor language any time) — don't let the 4h static-asset default cache it.
   Cache-Control: public, max-age=0, must-revalidate

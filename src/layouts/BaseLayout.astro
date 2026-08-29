@@ -3,7 +3,7 @@
 // The theme preset (from the Settings tab) is baked in as `data-preset`;
 // light/dark is resolved at runtime before paint (FOUC-prevention script).
 import '../styles/global.css';
-import { site, theme, themeColor } from '../config';
+import { site, theme, themeColor, themeColorDark } from '../config';
 import { ui } from '../i18n/ui';
 import { defaultLocale } from '../i18n/ui';
 import { getLanguageFromLocale } from '../i18n/utils';
@@ -73,7 +73,10 @@ const websiteJsonLd =
     {hasRealSite && (
       <link rel="alternate" type="application/rss+xml" title={site.title} href="/rss.xml" />
     )}
-    <meta name="theme-color" content={themeColor} />
+    <!-- Light/dark variants: the browser picks by prefers-color-scheme until
+         the user toggles; both tints come from the active preset's palettes. -->
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content={themeColor} />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content={themeColorDark} />
 
     <!-- Open Graph -->
     <meta property="og:type" content={ogType} />
