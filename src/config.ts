@@ -72,6 +72,19 @@ const PRESET_THEME_COLORS: Record<string, string> = {
 
 export const themeColor = PRESET_THEME_COLORS[theme.preset] ?? PRESET_THEME_COLORS.paper;
 
+// Dark-variant theme-color for the mobile browser chrome: dark mode re-tints
+// the page background, so Chrome/Safari should tint the tab to match the dark
+// scheme instead of staying on the light accent. Keyed by each preset's actual
+// dark `--background` (themes.css); presets without their own dark scheme fall
+// back to the shared default dark background.
+const PRESET_THEME_COLORS_DARK: Record<string, string> = {
+  'deep-purple': '#212737',
+  ember: '#1a1a1a',
+  espresso: '#2f2f2f',
+};
+const DEFAULT_DARK_THEME_COLOR = '#212737';
+export const themeColorDark = PRESET_THEME_COLORS_DARK[theme.preset] ?? DEFAULT_DARK_THEME_COLOR;
+
 export const nav: NavItem[] = settings.nav ?? [];
 
 export const socials: SocialItem[] = settings.socials ?? [];

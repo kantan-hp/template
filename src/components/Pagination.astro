@@ -19,7 +19,11 @@ const nextHref = page < totalPages ? `/blog/page/${page + 1}/` : null;
   {prevHref ? (
     <a href={prevHref}>{t.pagination.newer}</a>
   ) : (
-    <span class="disabled">{t.pagination.newer}</span>
+    <span class="disabled" aria-disabled="true">{t.pagination.newer}</span>
   )}
-  {nextHref ? <a href={nextHref}>{t.pagination.older}</a> : <span class="disabled">{t.pagination.older}</span>}
+  {nextHref ? (
+    <a href={nextHref}>{t.pagination.older}</a>
+  ) : (
+    <span class="disabled" aria-disabled="true">{t.pagination.older}</span>
+  )}
 </nav>
