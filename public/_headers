@@ -13,8 +13,22 @@
 # a commitment the template can't make on the user's behalf). Pages enforces
 # https in front of the origin.
 
+# NOTE on Pages _headers semantics (verified against the CF docs): a request
+# matching several rules INHERITS ALL of their headers, and when the same
+# header appears in more than one matching rule the values are comma- joined.
+# Two CSPs on one response are enforced as their CONJUNCTION — a resource must
+# satisfy every policy. The old /admin CSP below (added in PR #18) therefore
+# combined with the /* CSP to block Sveltia's https://unpkg.com script and
+# cdn.jsdelivr.net fonts on /admin/* (the site policy doesn't admit them),
+# which breaks the editor on every future provision. So the admin rules DETACH
+# the site policy with `!` and carry a complete, self-contained policy of
+# their own (plus their own HSTS/nosniff, so they don't depend on the /* rule
+# for hardening either).
 /admin
+  ! Content-Security-Policy
   X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Strict-Transport-Security: max-age=31536000
   Content-Security-Policy: default-src 'self'; script-src 'self' https://unpkg.com; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline'; font-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
 
 # Pages canonicalizes /admin to the trailing-slash /admin/, and an exact
@@ -28,7 +42,10 @@
 # + base-uri/form-action lock the editor down as a document (plugin/embed and
 # injection hardening — /admin renders untrusted repo content).
 /admin/*
+  ! Content-Security-Policy
   X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Strict-Transport-Security: max-age=31536000
   Content-Security-Policy: default-src 'self'; script-src 'self' https://unpkg.com; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline'; font-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
   # lang.js is re-read on every load (the provisioner/owner can change the
   # editor language any time) — don't let the 4h static-asset default cache it.
